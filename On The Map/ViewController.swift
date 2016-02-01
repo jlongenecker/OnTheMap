@@ -25,8 +25,22 @@ class ViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
-        taskForPostMethodUdacityLogin()
-        taskForGetMethodUdacityLogin()
+        //taskForPostMethodUdacityLogin()
+        //taskForGetMethodUdacityLogin()
+        var login = OTMClient()
+        let parameters = [String:AnyObject]()
+        let jsonBody: [String:[String:AnyObject]] = ["udacity":
+            ["username":"longenecker@me.com",
+                "password":"Iay$D1kI8TPPj1Gdi"
+            ]]
+        login.taskForPostMethod("", platformURL: OTMClient.Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.udacityAddValueURL) {( results, error) in
+            if let error = error {
+                print("\(error)")
+            } else {
+                print("\(results)")
+            }
+            
+        }
         
     }
 
