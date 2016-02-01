@@ -73,7 +73,10 @@ extension OTMClient {
         static let accountRegistered = "registered"
         
         //MARK: Account
+        static let account = "account"
         static let accountKey = "key"
+        static let session = "session"
+        static let sessionID = "id"
         
         //Will need more keys as I dig into the JSON and what we need
         

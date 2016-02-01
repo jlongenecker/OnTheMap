@@ -122,4 +122,11 @@ class OTMClient: NSObject {
         completionHandler(result: parsedResult, error: nil)
     }
     
+    class func sharedInstance() -> OTMClient {
+        struct Singleton {
+            static var sharedInstance = OTMClient()
+        }
+        return Singleton.sharedInstance
+    }
+    
 }

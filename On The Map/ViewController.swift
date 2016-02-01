@@ -27,19 +27,27 @@ class ViewController: UIViewController {
     @IBAction func loginButtonPressed(sender: AnyObject) {
         //taskForPostMethodUdacityLogin()
         //taskForGetMethodUdacityLogin()
-        var login = OTMClient()
-        let parameters = [String:AnyObject]()
-        let jsonBody: [String:[String:AnyObject]] = ["udacity":
-            ["username":"longenecker@me.com",
-                "password":"Iay$D1kI8TPPj1Gdi"
-            ]]
-        login.taskForPostMethod("", platformURL: OTMClient.Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.udacityAddValueURL) {( results, error) in
-            if let error = error {
-                print("\(error)")
-            } else {
-                print("\(results)")
+//        let login = OTMClient()
+//
+//     
+//        login.taskForPostMethod("", platformURL: OTMClient.Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.udacityAddValueURL) {( results, error) in
+//            if let error = error {
+//                print("\(error)")
+//            } else {
+//                print("\(results)")
+//            }
+//            
+//        }
+        
+        OTMClient.sharedInstance().authenticateWithViewController(self) {(success, errorString) in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.resultsLabel.text = "succss"
+                    self.resultsLabel.hidden = false
+                    })
+            } else  {
+                print("\(errorString)")
             }
-            
         }
         
     }
