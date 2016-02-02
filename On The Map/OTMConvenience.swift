@@ -13,10 +13,10 @@ import Foundation
 extension OTMClient {
     
     
-    //MARK: Authentication (Methods)
+    //MARK: Authentication Udacity (Methods)
     
-    func authenticateWithViewController(hostViewController: UIViewController, completionHandler: (success: Bool, errorString: String?)-> Void) {
-        getAccountInformation() {( success, accountInformation, sessionInformation, errorString) in
+    func authenticateWithViewController(usernameAndPasswordDictionary: [String:String], completionHandler: (success: Bool, errorString: String?)-> Void) {
+        getAccountInformation(usernameAndPasswordDictionary) {( success, accountInformation, sessionInformation, errorString) in
             if success {
                 self.verifyIfRegistered(accountInformation!) {(success, accountKey, errorString) in
                     if success {
@@ -39,12 +39,11 @@ extension OTMClient {
     }
     
     
-    func getAccountInformation(completionHandler: (success: Bool, accountInformation: [String:AnyObject]?, sessionInformation: [String:AnyObject]?, errorString: String?) -> Void) {
+    func getAccountInformation(usernameAndPasswordDictionary: [String:String], completionHandler: (success: Bool, accountInformation: [String:AnyObject]?, sessionInformation: [String:AnyObject]?, errorString: String?) -> Void) {
         let parameters = [String:AnyObject]()
-        let jsonBody: [String:[String:AnyObject]] = ["udacity":
-            ["username":"longenecker@me.com",
-                "password":"Iay$D1kI8TPPj1Gdi"
-            ]]
+        
+        let jsonBody: [String:[String:AnyObject]] = ["udacity": usernameAndPasswordDictionary
+            ]
         taskForPostMethod("", platformURL: Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
             if let error = error {
                 print(error)
@@ -87,6 +86,6 @@ extension OTMClient {
         
     }
     
-    
+    //MARK: Get user data from Parse
     
 }

@@ -27,7 +27,7 @@ class OTMClient: NSObject {
         super.init()
     }
     
-    
+    //MARK: POST Method
     
     func taskForPostMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         /* 1. Set the parameters */
@@ -43,8 +43,6 @@ class OTMClient: NSObject {
         do {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
         }
-//        print("Request: \(request) AddValueOne: \(addValueURL["ApplicationIDOne"] as! String), \(addValueURL["forHTTPHeaderFieldApplicationOne"] as! String)")
-//        print("Request: \(request) AddValueTwo: \(addValueURL["ApplicationIDTwo"] as! String), \(addValueURL["forHTTPHeaderFieldApplicationOne"] as! String)")
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
             /*GUARD: Was there an error? */

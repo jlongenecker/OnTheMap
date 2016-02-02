@@ -31,11 +31,22 @@
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gD1-0n-gYc">
+                                <rect key="frame" x="231" y="345" width="138" height="30"/>
+                                <state key="normal" title="Sign Up For Udacity"/>
+                                <connections>
+                                    <segue destination="lOZ-Lf-1q7" kind="popoverPresentation" popoverAnchorView="gD1-0n-gYc" id="nIJ-nC-Al7">
+                                        <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                    </segue>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="gD1-0n-gYc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F4A-RF-aIO"/>
                             <constraint firstItem="EEG-RE-vIJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Sm0-4W-Qxy"/>
                             <constraint firstItem="0Qf-Bl-ZXz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="161" id="aao-ZN-Udu"/>
+                            <constraint firstItem="gD1-0n-gYc" firstAttribute="top" secondItem="EEG-RE-vIJ" secondAttribute="bottom" constant="30" id="esG-7d-kTv"/>
                             <constraint firstItem="EEG-RE-vIJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m9A-C5-5AG"/>
                             <constraint firstItem="0Qf-Bl-ZXz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="259" id="oq2-Np-ImT"/>
                         </constraints>
@@ -47,6 +58,57 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="460" y="386"/>
+        </scene>
+        <!--Sign Up View Controller-->
+        <scene sceneID="NO5-Lm-jiE">
+            <objects>
+                <viewController id="ztt-t1-vv9" customClass="OTMSignUpViewController" customModule="On_The_Map" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="cBA-Z9-DL8"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Om-nd-qqg"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="nxN-Gw-AyM">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dHw-li-yg9">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="dHw-li-yg9" secondAttribute="trailing" constant="-20" id="1Cc-Sc-nDE"/>
+                            <constraint firstItem="2Om-nd-qqg" firstAttribute="top" secondItem="dHw-li-yg9" secondAttribute="bottom" id="ZdV-Gp-xwr"/>
+                            <constraint firstItem="dHw-li-yg9" firstAttribute="leading" secondItem="nxN-Gw-AyM" secondAttribute="leadingMargin" constant="-20" id="cpp-Gb-WNJ"/>
+                            <constraint firstItem="dHw-li-yg9" firstAttribute="top" secondItem="nxN-Gw-AyM" secondAttribute="topMargin" id="mWj-g3-4iT"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="GQx-zg-JGf"/>
+                    <connections>
+                        <outlet property="webView" destination="dHw-li-yg9" id="qpo-j3-mFw"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5D9-xQ-i0T" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1790" y="422"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="ddR-Xq-Xqx">
+            <objects>
+                <navigationController id="lOZ-Lf-1q7" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="hxP-DQ-lZc">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="ztt-t1-vv9" kind="relationship" relationship="rootViewController" id="0Ks-uh-x5t"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="bPe-M5-pr8" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1112" y="422"/>
         </scene>
     </scenes>
 </document>
