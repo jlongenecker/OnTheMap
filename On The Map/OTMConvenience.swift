@@ -18,8 +18,10 @@ extension OTMClient {
     func authenticateWithViewController(usernameAndPasswordDictionary: [String:String], completionHandler: (success: Bool, errorString: String?)-> Void) {
         getAccountInformation(usernameAndPasswordDictionary) {( success, accountInformation, sessionInformation, errorString) in
             if success {
+                
                 self.verifyIfRegistered(accountInformation!) {(success, accountKey, errorString) in
                     if success {
+                        self.userID = accountKey
                         self.getSessionID(sessionInformation!) {(success, sessionID, errorString) in
                             if let sessionID = sessionID {
                                 self.sessionID = sessionID
@@ -62,9 +64,8 @@ extension OTMClient {
     
     func verifyIfRegistered(accountInformation: [String:AnyObject], completionHandler: (success: Bool, accountKey: Int?, errorString: String?) -> Void) {
         if let accountRegistered = accountInformation[JSONResponseKeys.accountRegistered] as? Bool {
-            print("Account Information \(accountInformation)")
             if accountRegistered {
-                print("Account Registered \(accountRegistered)")
+                print("OTMConvenience Account Information \(accountInformation)")
                 if let accountKey = accountInformation["key"] as? String {
                     completionHandler(success: true, accountKey: Int(accountKey), errorString: nil)
                 } else {
@@ -87,5 +88,28 @@ extension OTMClient {
     }
     
     //MARK: Get user data from Parse
+    
+    func getStudentLocations(completionHandler: (success: Bool, errorString: String?)-> Void) {
+            //TO DO 1. Set Parameters for Get Method
+        let parameters: [String:AnyObject] = [
+            "limit":"100",
+            "order":"-updatedAt"
+        ]
+        taskForGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(JSONResult, error) in
+            if let error = error {
+                completionHandler(success: false, errorString: "Get Student Locations from Parse Failed \(error)")
+            } else {
+                print("JSONResult \(JSONResult)")
+                completionHandler(success: true, errorString: nil)
+            }
+            
+        }
+        
+            // 2. Upon Return Parse Data.
+    }
+
+    
+    
+    
     
 }

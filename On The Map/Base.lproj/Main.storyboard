@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -40,19 +40,37 @@
                                     </segue>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oga-ls-OCf">
+                                <rect key="frame" x="267" y="399" width="67" height="30"/>
+                                <state key="normal" title="Parse Get"/>
+                                <connections>
+                                    <action selector="parseGetButtonPressed:" destination="BYZ-38-t0r" eventType="touchUpInside" id="F7A-Bn-nhS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="kMr-jk-DDE">
+                                <rect key="frame" x="279" y="224" width="42" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="kMr-jk-DDE" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="6hi-b4-UGN"/>
                             <constraint firstItem="gD1-0n-gYc" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F4A-RF-aIO"/>
                             <constraint firstItem="EEG-RE-vIJ" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="Sm0-4W-Qxy"/>
                             <constraint firstItem="0Qf-Bl-ZXz" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="161" id="aao-ZN-Udu"/>
                             <constraint firstItem="gD1-0n-gYc" firstAttribute="top" secondItem="EEG-RE-vIJ" secondAttribute="bottom" constant="30" id="esG-7d-kTv"/>
+                            <constraint firstItem="EEG-RE-vIJ" firstAttribute="top" secondItem="kMr-jk-DDE" secondAttribute="bottom" constant="40" id="lyu-93-TdT"/>
                             <constraint firstItem="EEG-RE-vIJ" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="m9A-C5-5AG"/>
                             <constraint firstItem="0Qf-Bl-ZXz" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" constant="259" id="oq2-Np-ImT"/>
+                            <constraint firstItem="oga-ls-OCf" firstAttribute="top" secondItem="gD1-0n-gYc" secondAttribute="bottom" constant="24" id="qNr-Sj-120"/>
+                            <constraint firstItem="oga-ls-OCf" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="r58-Zx-ksD"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="loginButton" destination="EEG-RE-vIJ" id="WK4-23-c44"/>
+                        <outlet property="parseResultsLabel" destination="kMr-jk-DDE" id="nb1-Be-ZjF"/>
                         <outlet property="resultsLabel" destination="0Qf-Bl-ZXz" id="GtG-Ly-EoK"/>
                     </connections>
                 </viewController>
