@@ -14,17 +14,23 @@ class ViewController: UIViewController {
     let usernameAndPasswordDictionary = ["username":"longenecker@me.com","password":"Iay$D1kI8TPPj1Gdi"]
     @IBOutlet weak var resultsLabel: UILabel!
     @IBOutlet weak var parseResultsLabel: UILabel!
+    @IBOutlet weak var signUpForUdacityOutlet: UIButton!
     
+    @IBOutlet weak var udacitySignUpCompleteLabel: UILabel!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         
         session = NSURLSession.sharedSession()
-        resultsLabel.hidden = true
-        parseResultsLabel.hidden = true
+        hideLabels()
         
     }
 
+    func hideLabels() {
+        resultsLabel.hidden = true
+        parseResultsLabel.hidden = true
+        udacitySignUpCompleteLabel.hidden = true
+    }
     
     @IBOutlet weak var loginButton: UIButton!
     
@@ -59,6 +65,20 @@ class ViewController: UIViewController {
         
     }
  
+    @IBAction func signUpForUdacityButtonPressed(sender: AnyObject) {
+        OTMClient.sharedInstance().signUpForUdacity(self) {(success, errorString) in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.signUpForUdacityOutlet.hidden = true
+                    self.udacitySignUpCompleteLabel.text = "Congrats on signing up with Udacity. Enter your credentials to begin."
+                    self.udacitySignUpCompleteLabel.hidden = false
+                })
+            }
+
+        }
+    }
+    
+    
     
 }
 

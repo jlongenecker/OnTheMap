@@ -7,19 +7,26 @@
 //
 
 import UIKit
+import WebKit
 
 class OTMSignUpViewController: UIViewController {
     
     //MARK: Properties
-    @IBOutlet weak var webView: UIWebView!
+
     
     let request = NSURLRequest(URL: NSURL(string: "https://www.udacity.com/account/auth#!/signup")!)
     // may need to add a completionHandler
+    var completionHandler:((success: Bool, errorString: String?)->Void)? = nil
+    
+    let webView = WKWebView()
     
     override func viewDidLoad() {
+        
+        
         super.viewDidLoad()
         
-        webView.delegate = self
+        webView.navigationDelegate = self
+        self.view = webView
 
         self.navigationItem.title = "Sign Up for Udacity"
         self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "cancelAuth")
@@ -28,7 +35,6 @@ class OTMSignUpViewController: UIViewController {
     
     override func viewWillAppear(animated: Bool) {
         super.viewDidAppear(animated)
-        
         self.webView.loadRequest(request)
     }
     
@@ -40,11 +46,18 @@ class OTMSignUpViewController: UIViewController {
 }
 
 //MARK: OTMSignUpViewController: UIWebDelegate
-extension OTMSignUpViewController: UIWebViewDelegate {
+extension OTMSignUpViewController: WKNavigationDelegate {
     
-    func webViewDidFinishLoad(webView: UIWebView) {
-        print("\(webView.request?.URL!.absoluteString)")
+    func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
+        let currentURL = webView.URL?.absoluteString
+        if let currentURL = currentURL {
+            if currentURL == /*"https://www.udacity.com/me#!/"*/ "https://www.udacity.com/account/auth#!/signup" {
+                completionHandler!(success: true, errorString: nil)
+                self.dismissViewControllerAnimated(true, completion: nil)
+            }
+        }
+
+        print("\(webView.URL?.absoluteString)")
     }
     
-    //Need the Udacity Website to work on finishing up sign up verification
 }

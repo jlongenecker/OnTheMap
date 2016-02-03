@@ -108,7 +108,18 @@ extension OTMClient {
             // 2. Upon Return Parse Data.
     }
 
-    
+    //MARK: Sign Up For Udacity
+    func signUpForUdacity(viewController: ViewController, completionHanlder: (success: Bool, errorString: String?)->Void) {
+        let signUpForUdacityViewController = viewController.storyboard!.instantiateViewControllerWithIdentifier("OTMSignUpViewController") as! OTMSignUpViewController
+        signUpForUdacityViewController.completionHandler = completionHanlder
+        
+        let signUpUdacityNavigationController = UINavigationController()
+        signUpUdacityNavigationController.pushViewController(signUpForUdacityViewController, animated: false)
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            viewController.presentViewController(signUpUdacityNavigationController, animated: true, completion: nil)
+        })
+    }
     
     
     
