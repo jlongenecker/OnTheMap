@@ -50,20 +50,6 @@ class ViewController: UIViewController {
     }
 
     
-    @IBAction func parseGetButtonPressed(sender: AnyObject) {
-        OTMClient.sharedInstance().getStudentLocations() {(success, errorString) in
-            if success {
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.parseResultsLabel.text = "Parse Results Sucess"
-                    self.parseResultsLabel.hidden = false
-                })
-            } else {
-                print("Parse Error String: \(errorString)")
-            }
-        
-        }
-        
-    }
  
     @IBAction func signUpForUdacityButtonPressed(sender: AnyObject) {
         OTMClient.sharedInstance().signUpForUdacity(self) {(success, errorString) in

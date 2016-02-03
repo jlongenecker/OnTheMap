@@ -26,6 +26,7 @@ extension OTMClient {
                             if let sessionID = sessionID {
                                 self.sessionID = sessionID
                                 completionHandler(success: true, errorString: nil)
+                                self.completeLogin()
                             } else {
                                 completionHandler(success: success, errorString: errorString)
                             }
@@ -89,7 +90,7 @@ extension OTMClient {
     
     //MARK: Get user data from Parse
     
-    func getStudentLocations(completionHandler: (success: Bool, errorString: String?)-> Void) {
+    func getStudentLocations(completionHandler: (success: Bool, studentArray: [OTMStudent]?, errorString: String?)-> Void) {
             //TO DO 1. Set Parameters for Get Method
         let parameters: [String:AnyObject] = [
             "limit":"100",
@@ -97,16 +98,21 @@ extension OTMClient {
         ]
         taskForGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(JSONResult, error) in
             if let error = error {
-                completionHandler(success: false, errorString: "Get Student Locations from Parse Failed \(error)")
+                completionHandler(success: false, studentArray: nil, errorString: "Get Student Locations from Parse Failed \(error)")
             } else {
-                print("JSONResult \(JSONResult)")
-                completionHandler(success: true, errorString: nil)
+                //print("JSONResult \(JSONResult)")
+                let parseArray = JSONResult["results"] as? [[String:AnyObject]]
+                
+                if let parseArray = parseArray {
+                    self.studentsArray = OTMStudent.studentsFromResults(parseArray)
+                    completionHandler(success: true, studentArray: self.studentsArray, errorString: nil)
+                }
             }
             
         }
-        
-            // 2. Upon Return Parse Data.
     }
+    
+
 
     //MARK: Sign Up For Udacity
     func signUpForUdacity(viewController: ViewController, completionHanlder: (success: Bool, errorString: String?)->Void) {
@@ -121,6 +127,15 @@ extension OTMClient {
         })
     }
     
+    
+    
+    //MARK: Complete Login
+    func completeLogin() {
+        getStudentLocations() {(success, studentArray, errorString) in
+            if success {
+            }
+        }
+    }
     
     
 }

@@ -79,7 +79,17 @@ extension OTMClient {
         static let sessionID = "id"
         
         //Will need more keys as I dig into the JSON and what we need
-        
+        //MARK: Parse Result Keys
+        static let createdAt = "createdAt"
+        static let firstName = "firstName"
+        static let lastName = "lastName"
+        static let latitude = "latitude"
+        static let longitude = "longitude"
+        static let mapString = "mapString"
+        static let mediaURL = "mediaURL"
+        static let objectId = "objectId"
+        static let uniqueKey = "uniqueKey"
+        static let updatedAt = "updatedAt"
         
     }
     
