@@ -11,4 +11,15 @@ import UIKit
 class MapViewController: UIViewController {
 
     @IBOutlet weak var loginSuccessLabel: UILabel!
+    
+    var studentsInformation: [OTMStudent]?
+    
+    override func viewDidLoad() {
+        studentsInformation = OTMClient.sharedInstance().studentsArray
+        
+        if studentsInformation != nil {
+            loginSuccessLabel.text = "Woot Woot It worked!"
+        }
+    }
+
 }

@@ -15,7 +15,7 @@ extension OTMClient {
     
     //MARK: Authentication Udacity (Methods)
     
-    func authenticateWithViewController(usernameAndPasswordDictionary: [String:String], completionHandler: (success: Bool, errorString: String?)-> Void) {
+    func authenticateWithViewController(usernameAndPasswordDictionary: [String:String], viewController: ViewController, completionHandler: (success: Bool, errorString: String?)-> Void) {
         getAccountInformation(usernameAndPasswordDictionary) {( success, accountInformation, sessionInformation, errorString) in
             if success {
                 
@@ -26,7 +26,7 @@ extension OTMClient {
                             if let sessionID = sessionID {
                                 self.sessionID = sessionID
                                 completionHandler(success: true, errorString: nil)
-                                self.completeLogin()
+                                self.completeLogin(viewController)
                             } else {
                                 completionHandler(success: success, errorString: errorString)
                             }
@@ -130,12 +130,20 @@ extension OTMClient {
     
     
     //MARK: Complete Login
-    func completeLogin() {
+    func completeLogin(viewController: ViewController) {
         getStudentLocations() {(success, studentArray, errorString) in
             if success {
+                self.launchMapView(viewController)
             }
         }
     }
     
+    func launchMapView(viewController: ViewController) {
+        let studentInformationTabBarController = viewController.storyboard!.instantiateViewControllerWithIdentifier("studentNavigationViewController") as! UINavigationController
+        dispatch_async(dispatch_get_main_queue(), {
+            viewController.presentViewController(studentInformationTabBarController, animated: true, completion: nil)
+        })
+        
+    }
     
 }

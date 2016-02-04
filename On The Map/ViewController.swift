@@ -36,7 +36,7 @@ class ViewController: UIViewController {
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
 
-        OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary) {(success, errorString) in
+        OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary, viewController: self) {(success, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.resultsLabel.text = "succss"
