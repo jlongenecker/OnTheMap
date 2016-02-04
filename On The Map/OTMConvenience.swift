@@ -139,7 +139,8 @@ extension OTMClient {
     }
     
     func launchMapView(viewController: ViewController) {
-        let studentInformationTabBarController = viewController.storyboard!.instantiateViewControllerWithIdentifier("studentNavigationViewController") as! UINavigationController
+        let studentInformationTabBarController = viewController.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
+        
         dispatch_async(dispatch_get_main_queue(), {
             viewController.presentViewController(studentInformationTabBarController, animated: true, completion: nil)
         })

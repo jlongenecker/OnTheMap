@@ -13,12 +13,32 @@ class StudentTableViewController: UITableViewController {
     var studentsInformationArray = OTMClient.sharedInstance().studentsArray
     
     let reuseIdentifier = "studentInformationCell"
+    
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
         return studentsInformationArray.count
     }
+    
+    
+    @IBAction func refreshData(sender: AnyObject) {
+        OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.studentsInformationArray = OTMClient.sharedInstance().studentsArray
+                    self.testRefresh()
+                })
+            } else {
+                print("Unable to get new data. StudentTableViewController")
+            }
+        }
+        
+    }
 
+
+    func testRefresh() {
+        self.tableView.reloadData()
+    }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
@@ -30,8 +50,7 @@ class StudentTableViewController: UITableViewController {
         cell.detailTextLabel!.text = student.mediaURL
         
         //Compensates for the navigationBar, tab bar and status bar heights for the table.
-        tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight((navigationController?.navigationBar.frame)!) + UIApplication.sharedApplication().statusBarFrame.size.height, 0, CGRectGetHeight(self.tabBarController!.tabBar.frame), 0)
-        
+        //tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight((navigationController?.navigationBar.frame)!) + UIApplication.sharedApplication().statusBarFrame.size.height, 0, CGRectGetHeight(self.tabBarController!.tabBar.frame), 0)
         return cell
     }
 
