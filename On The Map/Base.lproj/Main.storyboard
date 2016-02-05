@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15C50" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
@@ -104,6 +104,7 @@
                     <connections>
                         <outlet property="loginButton" destination="EEG-RE-vIJ" id="WK4-23-c44"/>
                         <outlet property="parseResultsLabel" destination="kMr-jk-DDE" id="nb1-Be-ZjF"/>
+                        <outlet property="passwordTextField" destination="Dc3-h4-kR5" id="C5L-a6-ve2"/>
                         <outlet property="resultsLabel" destination="0Qf-Bl-ZXz" id="GtG-Ly-EoK"/>
                         <outlet property="signUpForUdacityOutlet" destination="gD1-0n-gYc" id="dDZ-EC-e4D"/>
                         <outlet property="udacitySignUpCompleteLabel" destination="kip-cL-Zyx" id="xMX-cF-Zez"/>
