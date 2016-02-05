@@ -131,7 +131,70 @@ class OTMClient: NSObject {
     }
     
     
+    //MARK: Delete Method - Udacity Logout
     
+    func taskForDeleteMethod(completionHandler:(result: AnyObject!, errorString: NSError?)-> Void) {
+    
+        let url = NSURL(string: Constants.udacityURL)!
+        
+        let request = NSMutableURLRequest(URL: url)
+        request.HTTPMethod = "DELETE"
+        
+        var xsrfCookie: NSHTTPCookie? = nil
+        let sharedCookieStorage = NSHTTPCookieStorage.sharedHTTPCookieStorage()
+        
+        for cookie in sharedCookieStorage.cookies! {
+            if cookie.name == "XSRF-TOKEN" {
+                xsrfCookie = cookie
+            }
+        }
+        if let xsrfCookie = xsrfCookie {
+            request.setValue(xsrfCookie.value, forHTTPHeaderField: "X-XSRF-TOKEN")
+        }
+        
+        let task = session.dataTaskWithRequest(request) {data, response, error in
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                if let response = response as? NSHTTPURLResponse {
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                } else if let response = response {
+                    print("Your request returned an invalid response! Response: \(response)!")
+                } else {
+                    print("Your request returned an invalid response!")
+                }
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                print("No data was returned by the request!")
+                return
+            }
+            
+            OTMClient.UdacityJSONCompletionHandler(data, completionHandler: completionHandler)
+
+        }
+        task.resume()
+    
+    }
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    //MARK: Helper Methods
     
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
         
@@ -153,7 +216,7 @@ class OTMClient: NSObject {
         return (!urlVars.isEmpty ? "?" : "") + urlVars.joinWithSeparator("&")
     }
     
-    /* Helper Function: Given a raw JSON, resturn a usable Foundation Object */
+    /* Helper Function: Given from Udacity a raw JSON, resturn a usable Foundation Object */
     class func UdacityJSONCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?)->Void) {
     
         var parsedResult: AnyObject!

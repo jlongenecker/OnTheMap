@@ -35,6 +35,18 @@ class StudentTableViewController: UITableViewController {
         
     }
 
+    @IBAction func logoutButtonPressed(sender: AnyObject) {
+        OTMClient.sharedInstance().logout() { success, errorString in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            } else {
+                print(errorString)
+            }
+            
+        }
+    }
 
     func testRefresh() {
         self.tableView.reloadData()

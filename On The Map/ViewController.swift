@@ -12,7 +12,9 @@ class ViewController: UIViewController {
 
     var session: NSURLSession!
     
-    var usernameAndPasswordDictionary = ["username": "", "password": ""]
+    let usernameAndPasswordDictionary = ["username": "longenecker@me.com", "password": "iFjPqp3j4sFWw4vTZ"]
+    
+    //var usernameAndPasswordDictionary = ["username": "", "password": ""]
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextBox: UITextField!
     
@@ -29,6 +31,10 @@ class ViewController: UIViewController {
         hideLabels()
         
     }
+    
+    override func viewWillAppear(animated: Bool) {
+        hideLabels()
+    }
 
     func hideLabels() {
         resultsLabel.hidden = true
@@ -42,9 +48,9 @@ class ViewController: UIViewController {
         
         let username = usernameTextBox.text
         let password = passwordTextField.text
-        usernameAndPasswordDictionary["username"] = username
-        usernameAndPasswordDictionary["password"] = password
-        
+//        usernameAndPasswordDictionary["username"] = username
+//        usernameAndPasswordDictionary["password"] = password
+//        
         OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary, viewController: self) {(success, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {

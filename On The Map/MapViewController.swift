@@ -19,10 +19,41 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     var studentsInformation: [OTMStudent]?
     
     override func viewDidLoad() {
-       addStudentsToMap()
+        addStudentsToMap()
+        //getLocationFromString()
     }
+    
+    
+    @IBAction func logoutButtonPressed(sender: AnyObject) {
+        OTMClient.sharedInstance().logout() { success, errorString in
+            if success {
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.dismissViewControllerAnimated(true, completion: nil)
+                })
+            } else {
+                print(errorString)
+            }
+            
+        }
+     }
+    
 
-
+//    func getLocationFromString() {
+//        let location = "1 Infinity Loop, Cupertino, CA"
+//        let geocoder = CLGeocoder()
+//        geocoder.geocodeAddressString(location) {(placemarks, error) -> Void in
+//            if((error) != nil) {
+//                print("Error", error)
+//            } else {
+//                let placemark:CLPlacemark = placemarks![0]
+//                let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
+//                
+//                let lattitude = coordinates.latitude
+//                print("\(lattitude)")
+//                print("Added annotation to map view")
+//            }
+//        }
+//    }
     
     @IBAction func reloadData(sender: AnyObject) {
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in

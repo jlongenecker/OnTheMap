@@ -34,21 +34,7 @@ struct OTMStudent {
         objectId = dictionary[OTMClient.JSONResponseKeys.objectId] as! String
         uniqueKey = dictionary[OTMClient.JSONResponseKeys.uniqueKey] as! String
         updatedAt = dictionary[OTMClient.JSONResponseKeys.updatedAt] as! String
-        //checkStudents()
-    }
-    
-    func checkStudents() {
-        print("Created At: \(createdAt)")
-        print("First Name At: \(firstName)")
-        print("Last Name at: \(lastName)")
-        print("Latitude at \(latitude)")
-        print("Longitude at \(longitude)")
-        print("MapString at \(mapString)")
-        print("MediaURl at \(mediaURL)")
-        print("objectID at \(objectId)")
-        print("uniqueKey at \(uniqueKey)")
-        print("updateAt at \(updatedAt)")
-        print("")
+ 
     }
     
     static func studentsFromResults(results: [[String: AnyObject]]) -> [OTMStudent] {

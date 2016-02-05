@@ -81,6 +81,7 @@ extension OTMClient {
 
     func getSessionID(sessionInfomration: [String:AnyObject], completionHandler: (success: Bool, sessionID: String?, errorString: String?)-> Void) {
         if let sessionID = sessionInfomration[JSONResponseKeys.sessionID] as? String {
+            print("SessionID at Login: \(sessionID)")
             completionHandler(success: true, sessionID: sessionID, errorString: nil)
         } else {
             completionHandler(success: false, sessionID: nil, errorString: "(Could not complete login. Unable to find SessionID in \(sessionInfomration)")
@@ -144,6 +145,20 @@ extension OTMClient {
         dispatch_async(dispatch_get_main_queue(), {
             viewController.presentViewController(studentInformationTabBarController, animated: true, completion: nil)
         })
+        
+    }
+    
+    
+    //MARK: Logout
+    func logout(completionHandler: (success: Bool, errorString: String?)->Void) {
+        OTMClient.sharedInstance().taskForDeleteMethod() {result, error in
+            if error != nil {
+                completionHandler(success: false, errorString: "Unable to complete logout, \(error)")
+            } else {
+                print("JSONResult from Logout: \(result)")
+                completionHandler(success: true, errorString: nil)
+            }
+        }
         
     }
     
