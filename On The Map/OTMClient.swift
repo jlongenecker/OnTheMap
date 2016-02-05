@@ -19,7 +19,7 @@ class OTMClient: NSObject {
     
     /* Authentication state */
     var sessionID: String? = nil
-    var userID : Int? = nil
+    var userID : String? = nil
     
     //MARK: Initializers
     
@@ -30,7 +30,7 @@ class OTMClient: NSObject {
     
     //MARK: POST Method
     
-    func taskForPostMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForUdacityPostMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         /* 1. Set the parameters */
         let mutableParameters = parameters
         
@@ -43,6 +43,8 @@ class OTMClient: NSObject {
         request.addValue(addValueURL["ApplicationIDTwo"] as! String, forHTTPHeaderField: addValueURL["forHTTPHeaderFieldApplicationTwo"] as! String)
         do {
             request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
+            let requestHTTPBody = try! NSJSONSerialization.JSONObjectWithData(request.HTTPBody!, options: NSJSONReadingOptions.AllowFragments)
+            print("\(requestHTTPBody)")
         }
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
@@ -77,6 +79,60 @@ class OTMClient: NSObject {
         }
         task.resume()
 
+        
+        return task
+    }
+    
+    func taskForPostParseMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        /* 1. Set the parameters */
+        let mutableParameters = parameters
+        
+        
+        let urlString = platformURL + method + OTMClient.escapedParameters(mutableParameters)
+        print("OTMClient URLString: \(urlString)")
+        let url = NSURL(string: urlString)
+        let request = NSMutableURLRequest(URL: url!)
+        request.HTTPMethod = "POST"
+        request.addValue(addValueURL["ApplicationIDOne"] as! String, forHTTPHeaderField: addValueURL["forHTTPHeaderFieldApplicationOne"] as! String)
+        request.addValue(addValueURL["ApplicationIDTwo"] as! String, forHTTPHeaderField: addValueURL["forHTTPHeaderFieldApplicationTwo"] as! String)
+        request.addValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        do {
+            request.HTTPBody = try! NSJSONSerialization.dataWithJSONObject(jsonBody, options: .PrettyPrinted)
+        }
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            /*GUARD: Was there an error? */
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                if let response = response as? NSHTTPURLResponse {
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                } else if let response = response {
+                    print("Your request returned an invalid response! Response: \(response)!")
+                } else {
+                    print("Your request returned an invalid response!")
+                }
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                print("No data was returned by the request!")
+                return
+            }
+            
+            /*Parse the data and use the data (happens in completion handler) */
+            OTMClient.parseJSONCompletionHandler(data, completionHandler: completeHandler)
+            
+            
+        }
+        task.resume()
+        
         
         return task
     }

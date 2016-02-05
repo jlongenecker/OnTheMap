@@ -45,9 +45,8 @@ extension OTMClient {
     func getAccountInformation(usernameAndPasswordDictionary: [String:String], completionHandler: (success: Bool, accountInformation: [String:AnyObject]?, sessionInformation: [String:AnyObject]?, errorString: String?) -> Void) {
         let parameters = [String:AnyObject]()
         
-        let jsonBody: [String:[String:AnyObject]] = ["udacity": usernameAndPasswordDictionary
-            ]
-        taskForPostMethod("", platformURL: Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
+        let jsonBody: [String:[String:AnyObject]] = ["udacity": usernameAndPasswordDictionary] 
+        taskForUdacityPostMethod("", platformURL: Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
             if let error = error {
                 print(error)
                 completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: "Login Failed AccountInformation")
@@ -63,12 +62,12 @@ extension OTMClient {
         }
     }
     
-    func verifyIfRegistered(accountInformation: [String:AnyObject], completionHandler: (success: Bool, accountKey: Int?, errorString: String?) -> Void) {
+    func verifyIfRegistered(accountInformation: [String:AnyObject], completionHandler: (success: Bool, accountKey: String?, errorString: String?) -> Void) {
         if let accountRegistered = accountInformation[JSONResponseKeys.accountRegistered] as? Bool {
             if accountRegistered {
                 print("OTMConvenience Account Information \(accountInformation)")
                 if let accountKey = accountInformation["key"] as? String {
-                    completionHandler(success: true, accountKey: Int(accountKey), errorString: nil)
+                    completionHandler(success: true, accountKey: accountKey, errorString: nil)
                 } else {
                     completionHandler(success: false, accountKey: nil, errorString: "Login failed. Unable to find account key in \(accountInformation)")
                 }
@@ -141,7 +140,7 @@ extension OTMClient {
     
     func launchMapView(viewController: ViewController) {
         let studentInformationTabBarController = viewController.storyboard!.instantiateViewControllerWithIdentifier("TabBarController") as! UITabBarController
-        
+
         dispatch_async(dispatch_get_main_queue(), {
             viewController.presentViewController(studentInformationTabBarController, animated: true, completion: nil)
         })

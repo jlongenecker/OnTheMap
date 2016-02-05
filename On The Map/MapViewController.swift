@@ -12,7 +12,6 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-    @IBOutlet weak var refreshButton: UIBarButtonItem!
 
     @IBOutlet weak var mapView: MKMapView!
     
@@ -21,6 +20,14 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     override func viewDidLoad() {
         addStudentsToMap()
         //getLocationFromString()
+        var navigationButtons = [UIBarButtonItem]()
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("reloadData"))
+        let postLocationButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "studentLocation")
+        
+        navigationButtons.append(refreshButton)
+        navigationButtons.append(postLocationButton)
+        self.navigationItem.rightBarButtonItems = navigationButtons
+        
     }
     
     
@@ -37,25 +44,25 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         }
      }
     
-
-//    func getLocationFromString() {
-//        let location = "1 Infinity Loop, Cupertino, CA"
-//        let geocoder = CLGeocoder()
-//        geocoder.geocodeAddressString(location) {(placemarks, error) -> Void in
-//            if((error) != nil) {
-//                print("Error", error)
-//            } else {
-//                let placemark:CLPlacemark = placemarks![0]
-//                let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
-//                
-//                let lattitude = coordinates.latitude
-//                print("\(lattitude)")
-//                print("Added annotation to map view")
-//            }
-//        }
-//    }
+    func studentLocation() {
+        addStudentLocation(self)
+    }
     
-    @IBAction func reloadData(sender: AnyObject) {
+    func addStudentLocation(viewController: UIViewController) {
+        let locationViewController = viewController.storyboard!.instantiateViewControllerWithIdentifier("userLocationViewController") as! userLocationViewController
+        
+        let navigationController = UINavigationController()
+        navigationController.pushViewController(locationViewController, animated: false)
+
+        dispatch_async(dispatch_get_main_queue(), {
+            viewController.presentViewController(navigationController, animated: true, completion: nil)
+
+        })
+
+    }
+
+    
+    func reloadData() {
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -65,7 +72,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
                 print("MapViewController: Unable to get students")
             }
         }
-
     }
     
     func addStudentsToMap() {

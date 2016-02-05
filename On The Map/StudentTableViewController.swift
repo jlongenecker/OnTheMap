@@ -14,14 +14,21 @@ class StudentTableViewController: UITableViewController {
     
     let reuseIdentifier = "studentInformationCell"
     
-
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    override func viewDidLoad() {
+        var navigationButtons = [UIBarButtonItem]()
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("reloadData"))
+        let postLocationButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "studentLocation")
         
+        navigationButtons.append(refreshButton)
+        navigationButtons.append(postLocationButton)
+        self.navigationItem.rightBarButtonItems = navigationButtons
+    }
+    
+    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return studentsInformationArray.count
     }
     
-    
-    @IBAction func refreshData(sender: AnyObject) {
+    func reloadData() {
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -32,9 +39,23 @@ class StudentTableViewController: UITableViewController {
                 print("Unable to get new data. StudentTableViewController")
             }
         }
-        
     }
-
+    
+    func studentLocation() {
+        addStudentLocation(self)
+    }
+    
+    func addStudentLocation(viewController: UIViewController) {
+        let locationViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier("userLocationViewController") as! userLocationViewController
+        
+        let navigationController = UINavigationController()
+        navigationController.pushViewController(locationViewController, animated: false)
+        
+        dispatch_async(dispatch_get_main_queue(), {
+            viewController.presentViewController(locationViewController, animated: true, completion: nil)
+        })
+    }
+    
     @IBAction func logoutButtonPressed(sender: AnyObject) {
         OTMClient.sharedInstance().logout() { success, errorString in
             if success {
@@ -56,13 +77,10 @@ class StudentTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier(reuseIdentifier, forIndexPath: indexPath)
         let student = studentsInformationArray[indexPath.row]
         
-        
         //set the name
         cell.textLabel!.text = student.firstName + " " + student.lastName
         cell.detailTextLabel!.text = student.mediaURL
         
-        //Compensates for the navigationBar, tab bar and status bar heights for the table.
-        //tableView.contentInset = UIEdgeInsetsMake(CGRectGetHeight((navigationController?.navigationBar.frame)!) + UIApplication.sharedApplication().statusBarFrame.size.height, 0, CGRectGetHeight(self.tabBarController!.tabBar.frame), 0)
         return cell
     }
 

@@ -55,6 +55,13 @@ extension OTMClient {
             "forHTTPHeaderFieldApplicationTwo":"X-Parse-REST-API-Key"
         ]
         
+        static let parsePostAddValueURL = [
+            "ApplicationIDOne":"QrX47CA9cyuGewLdsL7o5Eb8iug6Em8ye0dnAbIr", //Parse Application ID
+            "ApplicationIDTwo":"QuWThTdiRmTux3YaDseUSEpUKo7aBYM737yKd4gY", //REST API Key
+            "forHTTPHeaderFieldApplicationOne":"X-Parse-Application-Id",
+            "forHTTPHeaderFieldApplicationTwo":"X-Parse-REST-API-Key"
+        ]
+        
         static let udacityAddValueURL = [
             "ApplicationIDOne":"application/json", //Udacity ID
             "ApplicationIDTwo":"application/json", //Udacity ID

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5370B76D1C652DB800778F32 /* userLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5370B76C1C652DB800778F32 /* userLocationViewController.swift */; };
 		537ECCC01C63A2D100839532 /* StudentTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 537ECCBF1C63A2D100839532 /* StudentTableViewController.swift */; };
 		538CB5EB1C5FF21B00FEEC20 /* OTMConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538CB5EA1C5FF21B00FEEC20 /* OTMConvenience.swift */; };
 		538CB5ED1C613F4200FEEC20 /* OTMSignUpViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 538CB5EC1C613F4200FEEC20 /* OTMSignUpViewController.swift */; };
@@ -41,6 +42,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5370B76C1C652DB800778F32 /* userLocationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = userLocationViewController.swift; sourceTree = "<group>"; };
 		537ECCBF1C63A2D100839532 /* StudentTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StudentTableViewController.swift; sourceTree = "<group>"; };
 		538CB5EA1C5FF21B00FEEC20 /* OTMConvenience.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConvenience.swift; sourceTree = "<group>"; };
 		538CB5EC1C613F4200FEEC20 /* OTMSignUpViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMSignUpViewController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 				537ECCBF1C63A2D100839532 /* StudentTableViewController.swift */,
 				53BBB7EC1C5A5C6200674C2D /* ViewController.swift */,
 				538CB5EC1C613F4200FEEC20 /* OTMSignUpViewController.swift */,
+				5370B76C1C652DB800778F32 /* userLocationViewController.swift */,
 				538CB5F01C6252B100FEEC20 /* MapViewController.swift */,
 			);
 			name = "View Controller";
@@ -299,6 +302,7 @@
 				53BBB8191C5BF64F00674C2D /* OTMClient.swift in Sources */,
 				538CB5F31C62810000FEEC20 /* studentLocations.swift in Sources */,
 				53BBB7EB1C5A5C6200674C2D /* AppDelegate.swift in Sources */,
+				5370B76D1C652DB800778F32 /* userLocationViewController.swift in Sources */,
 				538CB5ED1C613F4200FEEC20 /* OTMSignUpViewController.swift in Sources */,
 				537ECCC01C63A2D100839532 /* StudentTableViewController.swift in Sources */,
 				538CB5F11C6252B100FEEC20 /* MapViewController.swift in Sources */,
