@@ -23,6 +23,7 @@ class userLocationViewController: UIViewController {
         // Do any additional setup after loading the view.
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "dismissViewController")
         navigationItem.leftBarButtonItem = cancelButton
+        self.tabBarController?.tabBar.hidden = true
         getLocationFromString()
        
     }
@@ -84,7 +85,7 @@ class userLocationViewController: UIViewController {
     
     
     func dismissViewController() {
-        self.dismissViewControllerAnimated(true, completion: nil)
+        self.navigationController?.popToRootViewControllerAnimated(true)
         
     }
     

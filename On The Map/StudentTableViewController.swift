@@ -14,18 +14,25 @@ class StudentTableViewController: UITableViewController {
     
     let reuseIdentifier = "studentInformationCell"
     
-    override func viewDidLoad() {
-        var navigationButtons = [UIBarButtonItem]()
-        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("reloadData"))
-        let postLocationButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "studentLocation")
-        
-        navigationButtons.append(refreshButton)
-        navigationButtons.append(postLocationButton)
-        self.navigationItem.rightBarButtonItems = navigationButtons
+    override func viewWillAppear(animated: Bool) {
+        configureNavigationController()
+        reloadData()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return studentsInformationArray.count
+    }
+    
+    
+    func configureNavigationController() {
+        var navigationButtons = [UIBarButtonItem]()
+        let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("reloadData"))
+        let postLocationButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Add, target: self, action: "studentLocation")
+        navigationItem.title = "On The Map"
+        navigationButtons.append(refreshButton)
+        navigationButtons.append(postLocationButton)
+        self.navigationItem.rightBarButtonItems = navigationButtons
+        self.tabBarController?.tabBar.hidden = false
     }
     
     func reloadData() {
@@ -48,11 +55,11 @@ class StudentTableViewController: UITableViewController {
     func addStudentLocation(viewController: UIViewController) {
         let locationViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier("userLocationViewController") as! userLocationViewController
         
-        let navigationController = UINavigationController()
-        navigationController.pushViewController(locationViewController, animated: false)
+
         
         dispatch_async(dispatch_get_main_queue(), {
-            viewController.presentViewController(locationViewController, animated: true, completion: nil)
+            self.navigationController?.pushViewController(locationViewController, animated: true)
+            
         })
     }
     
