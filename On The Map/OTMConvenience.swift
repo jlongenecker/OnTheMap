@@ -46,7 +46,7 @@ extension OTMClient {
         let parameters = [String:AnyObject]()
         
         let jsonBody: [String:[String:AnyObject]] = ["udacity": usernameAndPasswordDictionary] 
-        taskForUdacityPostMethod("", platformURL: Constants.udacityURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
+        taskForUdacityPostMethod("", platformURL: Constants.udacityLoginURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
             if let error = error {
                 print(error)
                 completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: "Login Failed AccountInformation")
@@ -66,7 +66,7 @@ extension OTMClient {
         if let accountRegistered = accountInformation[JSONResponseKeys.accountRegistered] as? Bool {
             if accountRegistered {
                 print("OTMConvenience Account Information \(accountInformation)")
-                if let accountKey = accountInformation["key"] as? String {
+                if let accountKey = accountInformation[OTMClient.JSONResponseKeys.accountKey] as? String {
                     completionHandler(success: true, accountKey: accountKey, errorString: nil)
                 } else {
                     completionHandler(success: false, accountKey: nil, errorString: "Login failed. Unable to find account key in \(accountInformation)")
@@ -88,6 +88,41 @@ extension OTMClient {
         
     }
     
+    //MARK: Get public user data from Udacity
+    
+    func getUserDatafromUdacity(completionHandler: (success:Bool, errorString: String?) -> Void) {
+        
+        let url = OTMClient.Constants.udacityPublicDataURL
+        let userID = OTMClient.sharedInstance().userID
+        
+        if let userID = userID {
+            taskForUdacityGetMethod(userID, platformURL: url) {result, error in
+                if error != nil {
+                    print("OTMConvenience: Unable to get public user data due to \(error)")
+                    completionHandler(success: false, errorString: "Unable to get public user data due to \(error)")
+                } else {
+                    let userPublicData = result[JSONResponseKeys.user] as? [String:AnyObject]
+                    if let userPublicData = userPublicData {
+                        self.firstName = userPublicData[JSONResponseKeys.publicDataFirstName] as? String
+                        self.lastName = userPublicData[JSONResponseKeys.publicDataLastName] as? String
+                        print("FirstName: \(self.firstName) LastName: \(self.lastName!)")
+                        completionHandler(success: true, errorString: nil)
+                    } else {
+                        completionHandler(success: false, errorString: "Unable to parseJSON")
+                    }
+                }
+            }
+        } else {
+            print("OTMConvenience: UserID was not set. Unable to get data")
+            completionHandler(success: false, errorString: "UserID was not set. Unable to get data")
+        }
+        
+
+        
+    
+    }
+    
+    
     //MARK: Get user data from Parse
     
     func getStudentLocations(completionHandler: (success: Bool, studentArray: [OTMStudent]?, errorString: String?)-> Void) {
@@ -96,7 +131,7 @@ extension OTMClient {
             "limit":"100",
             "order":"-updatedAt"
         ]
-        taskForGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(JSONResult, error) in
+        taskForParseGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(JSONResult, error) in
             if let error = error {
                 completionHandler(success: false, studentArray: nil, errorString: "Get Student Locations from Parse Failed \(error)")
             } else {
@@ -131,11 +166,21 @@ extension OTMClient {
     
     //MARK: Complete Login
     func completeLogin(viewController: ViewController) {
-        getStudentLocations() {(success, studentArray, errorString) in
+        getUserDatafromUdacity() {success, errorString in
             if success {
-                self.launchMapView(viewController)
+                self.getStudentLocations() {(success, studentArray, errorString) in
+                    if success {
+                        self.launchMapView(viewController)
+                    } else {
+                        print("CompleteLogin getStudentLocations \(errorString)")
+                    }
+                }
+            } else {
+                print("CompleteLogin getUserDataFromUdacity \(errorString)")
             }
+
         }
+        
     }
     
     func launchMapView(viewController: ViewController) {

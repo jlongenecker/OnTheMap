@@ -13,7 +13,8 @@ import Foundation
 extension OTMClient {
     struct Constants {
         //MARK: URLs
-        static let udacityURL = "https://www.udacity.com/api/session"
+        static let udacityLoginURL = "https://www.udacity.com/api/session"
+        static let udacityPublicDataURL = "https://www.udacity.com/api/users/"
         static let parseURL = "https://api.parse.com/1/classes/StudentLocation"
     }
     
@@ -84,6 +85,9 @@ extension OTMClient {
         static let accountKey = "key"
         static let session = "session"
         static let sessionID = "id"
+        static let user = "user"
+        static let publicDataFirstName = "first_name"
+        static let publicDataLastName = "last_name"
         
         //Will need more keys as I dig into the JSON and what we need
         //MARK: Parse Result Keys

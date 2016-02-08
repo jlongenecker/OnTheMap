@@ -21,6 +21,10 @@ class OTMClient: NSObject {
     var sessionID: String? = nil
     var userID : String? = nil
     
+    /*User Name */
+    var firstName: String? = nil
+    var lastName: String? = nil
+    
     //MARK: Initializers
     
     override init() {
@@ -137,8 +141,8 @@ class OTMClient: NSObject {
         return task
     }
     
-    //MARK: GET Method
-    func taskForGetMethod(method: String, platformURL: String, parameters: [String: AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    //MARK: Parse GET Method
+    func taskForParseGetMethod(method: String, platformURL: String, parameters: [String: AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         /* 1. Set the parameters */
         let mutableParameters = parameters
         
@@ -187,11 +191,57 @@ class OTMClient: NSObject {
     }
     
     
+    //MARK: Udacity GET Method
+    func taskForUdacityGetMethod(userID: String, platformURL: String, completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        /* 1. Set the parameters */
+        
+        let urlString = platformURL + userID
+        print("URLString: \(urlString)")
+        let url = NSURL(string: urlString)
+        let request = NSMutableURLRequest(URL: url!)
+        
+        let task = session.dataTaskWithRequest(request) { (data, response, error) in
+            /*GUARD: Was there an error? */
+            guard (error == nil) else {
+                print("There was an error with your request: \(error)")
+                return
+            }
+            
+            /* GUARD: Did we get a successful 2XX response? */
+            guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
+                if let response = response as? NSHTTPURLResponse {
+                    print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                } else if let response = response {
+                    print("Your request returned an invalid response! Response: \(response)!")
+                } else {
+                    print("Your request returned an invalid response!")
+                }
+                return
+            }
+            
+            /* GUARD: Was there any data returned? */
+            guard let data = data else {
+                print("No data was returned by the request!")
+                return
+            }
+            
+            /*Parse the data and use the data (happens in completion handler) */
+            OTMClient.UdacityJSONCompletionHandler(data, completionHandler: completeHandler)
+            
+            
+        }
+        task.resume()
+        
+        
+        return task
+    }
+    
+    
     //MARK: Delete Method - Udacity Logout
     
     func taskForDeleteMethod(completionHandler:(result: AnyObject!, errorString: NSError?)-> Void) {
     
-        let url = NSURL(string: Constants.udacityURL)!
+        let url = NSURL(string: Constants.udacityLoginURL)!
         
         let request = NSMutableURLRequest(URL: url)
         request.HTTPMethod = "DELETE"
@@ -243,13 +293,6 @@ class OTMClient: NSObject {
     
     
     
-    
-    
-    
-    
-    
-    
-    
     //MARK: Helper Methods
     
     class func escapedParameters(parameters: [String : AnyObject]) -> String {
@@ -288,7 +331,7 @@ class OTMClient: NSObject {
         completionHandler(result: parsedResult, error: nil)
     }
     
-    /* Helper Function: Given a raw JSON, resturn a usable Foundation Object */
+    /* Helper Function: Given a raw JSON, return a usable Foundation Object */
     class func parseJSONCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?)->Void) {
         
         var parsedResult: AnyObject!
