@@ -105,7 +105,7 @@ extension OTMClient {
                     if let userPublicData = userPublicData {
                         self.firstName = userPublicData[JSONResponseKeys.publicDataFirstName] as? String
                         self.lastName = userPublicData[JSONResponseKeys.publicDataLastName] as? String
-                        print("FirstName: \(self.firstName) LastName: \(self.lastName!)")
+                        print("FirstName: \(self.firstName!) LastName: \(self.lastName!)")
                         completionHandler(success: true, errorString: nil)
                     } else {
                         completionHandler(success: false, errorString: "Unable to parseJSON")

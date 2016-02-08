@@ -24,25 +24,24 @@ class userLocationViewController: UIViewController {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "dismissViewController")
         navigationItem.leftBarButtonItem = cancelButton
         self.tabBarController?.tabBar.hidden = true
-        getLocationFromString()
-       
+        getLocationFromString("Davenport, IA") {success, errorString in
+            
+        }
     }
 
     
-    func getLocationFromString() {
-        let location = "Davenport, IA"
+    func getLocationFromString(location: String, completionHandler: (success:Bool, errorString: String?)->Void) {
         let geocoder = CLGeocoder()
         geocoder.geocodeAddressString(location) {(placemarks, error) -> Void in
             if((error) != nil) {
                 print("Error", error)
+                completionHandler(success: false, errorString: "Unable to get location from string \(error)")
             } else {
                 let placemark:CLPlacemark = placemarks![0]
                 let coordinates:CLLocationCoordinate2D = placemark.location!.coordinate
-                
                 self.lattitude = Float(coordinates.latitude)
                 self.longitude = Float(coordinates.longitude)
-                print("\(self.lattitude)")
-                print("Added annotation to map view")
+                print("Lattitude: \(self.lattitude) Longitude: \(self.longitude)")
             }
         }
     }
@@ -53,19 +52,24 @@ class userLocationViewController: UIViewController {
     }
     
     @IBAction func submitButtonPressed(sender: AnyObject) {
-        postData()
+        
+        let text = studentLocationTextField.text
+        print(text)
+        //postData()
     }
 
     func postData(/*completionHandler: (success:Bool, errorString: String?)->Void*/) {
         let parameters = [String:AnyObject]()
         let userInformation = OTMClient.sharedInstance()
         let userID = userInformation.userID!
+        let firstName = userInformation.firstName!
+        let lastName = userInformation.lastName!
 
         
         let jsonBody: [String:AnyObject] =  [
             "uniqueKey": userID,
-            "firstName" : "John",
-            "lastName" : "Longenecker",
+            "firstName" : firstName,
+            "lastName" : lastName,
             "mapString" : "Davenport, IA",
             "mediaURL" : "www.google.com",
             "latitude": lattitude,
@@ -77,6 +81,7 @@ class userLocationViewController: UIViewController {
             
             if error == nil {
                 print("Result \(result)")
+                self.navigationController?.popToRootViewControllerAnimated(true)
             }
             
         }
@@ -89,15 +94,5 @@ class userLocationViewController: UIViewController {
         
     }
     
-    
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }
