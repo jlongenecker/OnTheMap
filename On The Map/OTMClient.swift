@@ -147,7 +147,7 @@ class OTMClient: NSObject {
         let mutableParameters = parameters
         
         let urlString = platformURL + method + OTMClient.escapedParameters(mutableParameters)
-        print("URLString: \(urlString)")
+        print("Parse Get Method URLString: \(urlString)")
         let url = NSURL(string: urlString)
         let request = NSMutableURLRequest(URL: url!)
         //request.HTTPMethod = "POST"

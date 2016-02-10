@@ -13,10 +13,16 @@ class StudentTableViewController: UITableViewController {
     var studentsInformationArray = OTMClient.sharedInstance().studentsArray
     
     let reuseIdentifier = "studentInformationCell"
+    var secondTimeLoading = false
     
     override func viewWillAppear(animated: Bool) {
+        if secondTimeLoading {
+            reloadData()
+            print("Second Time Loading")
+        }
         configureNavigationController()
-        reloadData()
+        
+
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -33,6 +39,7 @@ class StudentTableViewController: UITableViewController {
         navigationButtons.append(postLocationButton)
         self.navigationItem.rightBarButtonItems = navigationButtons
         self.tabBarController?.tabBar.hidden = false
+        secondTimeLoading = true
     }
     
     func reloadData() {

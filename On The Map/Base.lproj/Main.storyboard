@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
         <capability name="Aspect ratio constraints" minToolsVersion="5.1"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
@@ -303,19 +303,59 @@
                                     <action selector="submitButtonPressed:" destination="pLc-CH-Llm" eventType="touchUpInside" id="Dke-SO-CVc"/>
                                 </connections>
                             </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Ese-bG-sGV">
+                                <rect key="frame" x="20" y="213" width="560" height="367"/>
+                            </mapView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Enter a link to share:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uQL-ng-Yw2">
+                                <rect key="frame" x="222" y="28" width="156" height="21"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="XRx-be-eF9">
+                                <rect key="frame" x="129" y="72" width="343" height="30"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="XRx-be-eF9" secondAttribute="height" multiplier="343:30" id="4bu-5A-l4T"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="d45-Mq-hmE">
+                                <rect key="frame" x="276" y="175" width="49" height="30"/>
+                                <state key="normal" title="Submit"/>
+                                <connections>
+                                    <action selector="submitURLButtonPressed:" destination="pLc-CH-Llm" eventType="touchUpInside" id="dQS-Ri-UsE"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="SgK-gN-Eh2" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="52" id="AeY-Ff-juu"/>
+                            <constraint firstAttribute="leadingMargin" secondItem="Ese-bG-sGV" secondAttribute="leading" id="Fb4-W0-nDb"/>
                             <constraint firstItem="nEz-lZ-Y17" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="155" id="Mwy-je-fQZ"/>
+                            <constraint firstItem="1NH-KV-XXQ" firstAttribute="top" secondItem="Ese-bG-sGV" secondAttribute="bottom" constant="20" id="Ohw-Td-VkR"/>
+                            <constraint firstItem="XRx-be-eF9" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="P8v-mL-VmF"/>
                             <constraint firstItem="SgK-gN-Eh2" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="PkM-CO-gih"/>
                             <constraint firstItem="PZf-WQ-p2t" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="bu0-Ga-oRn"/>
+                            <constraint firstItem="uQL-ng-Yw2" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="8" id="c5m-YX-nQn"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Ese-bG-sGV" secondAttribute="trailing" id="cwA-zE-I9b"/>
+                            <constraint firstItem="Ese-bG-sGV" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="193" id="gdH-xy-kQo"/>
+                            <constraint firstItem="uQL-ng-Yw2" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="i0N-6N-6VY"/>
+                            <constraint firstItem="XRx-be-eF9" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="52" id="jzE-zS-OZ5"/>
+                            <constraint firstItem="d45-Mq-hmE" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="155" id="kDR-bA-tAc"/>
                             <constraint firstItem="nEz-lZ-Y17" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="nCt-Pa-82a"/>
                             <constraint firstItem="PZf-WQ-p2t" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="8" id="omc-9l-R6y"/>
+                            <constraint firstItem="d45-Mq-hmE" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="z0v-6q-oKM"/>
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="enterAURLToShare" destination="uQL-ng-Yw2" id="WK4-sy-2LJ"/>
+                        <outlet property="enterLocationLabel" destination="PZf-WQ-p2t" id="YSZ-c6-SaD"/>
+                        <outlet property="mapView" destination="Ese-bG-sGV" id="hMI-OU-Iwb"/>
                         <outlet property="studentLocationTextField" destination="SgK-gN-Eh2" id="Nim-gP-6Q7"/>
+                        <outlet property="submitButtonOutlet" destination="nEz-lZ-Y17" id="LNL-nc-buS"/>
+                        <outlet property="submitURLButton" destination="d45-Mq-hmE" id="tZn-g2-tJA"/>
+                        <outlet property="urlTextField" destination="XRx-be-eF9" id="tCh-PN-dLk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="U59-qR-W8h" userLabel="First Responder" sceneMemberID="firstResponder"/>
