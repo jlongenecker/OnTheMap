@@ -16,18 +16,15 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     @IBOutlet weak var mapView: MKMapView!
     
     var studentsInformation: [OTMStudent]?
-    var secondTimeLoading = false
     
     override func viewDidLoad() {
-        addStudentsToMap()
+        
         
     }
     
     override func viewWillAppear(animated: Bool) {
-        if secondTimeLoading {
-            reloadData()
-        }
         configureNavigationController()
+        addStudentsToMap()
     }
     
     func configureNavigationController() {
@@ -39,7 +36,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         navigationButtons.append(postLocationButton)
         self.navigationItem.rightBarButtonItems = navigationButtons
         self.tabBarController?.tabBar.hidden = false
-        secondTimeLoading = true
     }
     
     @IBAction func logoutButtonPressed(sender: AnyObject) {

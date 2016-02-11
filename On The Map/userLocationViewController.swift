@@ -136,16 +136,27 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
             
             if error == nil {
                 print("Result2 \(result)")
-                
-                dispatch_async(dispatch_get_main_queue(), {
-                    self.navigationController?.popToRootViewControllerAnimated(true)
-                })
-                
+                self.reloadData()
             }
             
         }
         
     }
+    
+    
+    func reloadData() {
+        OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
+            if success {
+                OTMClient.sharedInstance().studentsArray = studentArray!
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.navigationController?.popToRootViewControllerAnimated(true)
+                })
+            } else {
+                print("userLocationViewController: Unable to update students")
+            }
+        }
+    }
+    
     
     
     func dismissViewController() {

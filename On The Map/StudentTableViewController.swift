@@ -13,16 +13,10 @@ class StudentTableViewController: UITableViewController {
     var studentsInformationArray = OTMClient.sharedInstance().studentsArray
     
     let reuseIdentifier = "studentInformationCell"
-    var secondTimeLoading = false
     
     override func viewWillAppear(animated: Bool) {
-        if secondTimeLoading {
-            reloadData()
-            print("Second Time Loading")
-        }
         configureNavigationController()
-        
-
+        refreshTable()
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,7 +33,6 @@ class StudentTableViewController: UITableViewController {
         navigationButtons.append(postLocationButton)
         self.navigationItem.rightBarButtonItems = navigationButtons
         self.tabBarController?.tabBar.hidden = false
-        secondTimeLoading = true
     }
     
     func reloadData() {
@@ -47,7 +40,7 @@ class StudentTableViewController: UITableViewController {
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.studentsInformationArray = OTMClient.sharedInstance().studentsArray
-                    self.testRefresh()
+                    self.refreshTable()
                 })
             } else {
                 print("Unable to get new data. StudentTableViewController")
@@ -61,9 +54,6 @@ class StudentTableViewController: UITableViewController {
     
     func addStudentLocation(viewController: UIViewController) {
         let locationViewController = viewController.storyboard?.instantiateViewControllerWithIdentifier("userLocationViewController") as! userLocationViewController
-        
-
-        
         dispatch_async(dispatch_get_main_queue(), {
             self.navigationController?.pushViewController(locationViewController, animated: true)
             
@@ -83,8 +73,11 @@ class StudentTableViewController: UITableViewController {
         }
     }
 
-    func testRefresh() {
-        self.tableView.reloadData()
+    func refreshTable() {
+        studentsInformationArray = OTMClient.sharedInstance().studentsArray
+        dispatch_async(dispatch_get_main_queue(), {
+            self.tableView.reloadData()
+        })
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
