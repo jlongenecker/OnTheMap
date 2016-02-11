@@ -34,7 +34,7 @@ class OTMClient: NSObject {
     
     //MARK: POST Method
     
-    func taskForUdacityPostMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForUdacityPostMethod(method: String, platformURL: String, parameters: [String: AnyObject], jsonBody: [String:AnyObject], addValueURL: [String:AnyObject], completeHandler: (success: Bool, result: AnyObject?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         /* 1. Set the parameters */
         let mutableParameters = parameters
         
@@ -55,6 +55,7 @@ class OTMClient: NSObject {
             /*GUARD: Was there an error? */
             guard (error == nil) else {
                 print("There was an error with your request: \(error)")
+                completeHandler(success: false, result: nil, error: error)
                 return
             }
             
@@ -62,10 +63,13 @@ class OTMClient: NSObject {
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {
                 if let response = response as? NSHTTPURLResponse {
                     print("Your request returned an invalid response! Status code: \(response.statusCode)!")
+                    completeHandler(success: false, result: "\(response.statusCode)", error: error)
                 } else if let response = response {
                     print("Your request returned an invalid response! Response: \(response)!")
+                    completeHandler(success: false, result: "\(response)", error: error)
                 } else {
                     print("Your request returned an invalid response!")
+                    completeHandler(success: false, result: "\(response)", error: error)
                 }
                 return
             }
@@ -73,6 +77,7 @@ class OTMClient: NSObject {
             /* GUARD: Was there any data returned? */
             guard let data = data else {
                 print("No data was returned by the request!")
+                completeHandler(success: false, result: nil, error: error)
                 return
             }
             
@@ -192,7 +197,7 @@ class OTMClient: NSObject {
     
     
     //MARK: Udacity GET Method
-    func taskForUdacityGetMethod(userID: String, platformURL: String, completeHandler: (result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
+    func taskForUdacityGetMethod(userID: String, platformURL: String, completeHandler: (success: Bool, result: AnyObject!, error: NSError?) -> Void) -> NSURLSessionDataTask {
         /* 1. Set the parameters */
         
         let urlString = platformURL + userID
@@ -239,7 +244,7 @@ class OTMClient: NSObject {
     
     //MARK: Delete Method - Udacity Logout
     
-    func taskForDeleteMethod(completionHandler:(result: AnyObject!, errorString: NSError?)-> Void) {
+    func taskForDeleteMethod(completionHandler:(success: Bool, result: AnyObject!, errorString: NSError?)-> Void) {
     
         let url = NSURL(string: Constants.udacityLoginURL)!
         
@@ -316,7 +321,7 @@ class OTMClient: NSObject {
     }
     
     /* Helper Function: Given from Udacity a raw JSON, resturn a usable Foundation Object */
-    class func UdacityJSONCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?)->Void) {
+    class func UdacityJSONCompletionHandler(data: NSData, completionHandler: (success: Bool, result: AnyObject!, error: NSError?)->Void) {
     
         var parsedResult: AnyObject!
         do {
@@ -324,11 +329,11 @@ class OTMClient: NSObject {
         } catch {
             let userInfo = [NSLocalizedDescriptionKey : "Could not parse the data as JSON: '\(data)'"]
             print("\(userInfo)")
-            completionHandler(result: nil, error: NSError(domain: "parseJSONWithCompletionHandler", code: 1, userInfo: userInfo))
+            completionHandler(success: false, result: nil, error: NSError(domain: "parseJSONWithCompletionHandler", code: 1, userInfo: userInfo))
             
         }
         
-        completionHandler(result: parsedResult, error: nil)
+        completionHandler(success: true, result: parsedResult, error: nil)
     }
     
     /* Helper Function: Given a raw JSON, return a usable Foundation Object */

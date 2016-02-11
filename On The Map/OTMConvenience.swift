@@ -16,7 +16,7 @@ extension OTMClient {
     //MARK: Authentication Udacity (Methods)
     
     func authenticateWithViewController(usernameAndPasswordDictionary: [String:String], viewController: ViewController, completionHandler: (success: Bool, errorString: String?)-> Void) {
-        getAccountInformation(usernameAndPasswordDictionary) {( success, accountInformation, sessionInformation, errorString) in
+        getAccountInformation(usernameAndPasswordDictionary) {(success, accountInformation, sessionInformation, errorString) in
             if success {
                 
                 self.verifyIfRegistered(accountInformation!) {(success, accountKey, errorString) in
@@ -46,17 +46,19 @@ extension OTMClient {
         let parameters = [String:AnyObject]()
         
         let jsonBody: [String:[String:AnyObject]] = ["udacity": usernameAndPasswordDictionary] 
-        taskForUdacityPostMethod("", platformURL: Constants.udacityLoginURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {( JSONResult, error) in
+        taskForUdacityPostMethod("", platformURL: Constants.udacityLoginURL, parameters: parameters, jsonBody: jsonBody, addValueURL: AddValueNSMutableURLRequest.udacityAddValueURL) {(success, JSONResult, error) in
             if let error = error {
                 print(error)
-                completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: "Login Failed AccountInformation")
-            } else {
-                if let accountInformation = JSONResult[OTMClient.JSONResponseKeys.account] as? [String:AnyObject], sessionInformation = JSONResult[OTMClient.JSONResponseKeys.session] as? [String:AnyObject]{
+                completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: error.localizedDescription)
+            } else if success {
+                if let accountInformation = JSONResult![OTMClient.JSONResponseKeys.account] as? [String:AnyObject], sessionInformation = JSONResult![OTMClient.JSONResponseKeys.session] as? [String:AnyObject]{
                     completionHandler(success: true, accountInformation: accountInformation, sessionInformation: sessionInformation, errorString: nil)
                 } else {
                     print("Could not find \(OTMClient.JSONResponseKeys.account) in \(JSONResult)")
                     completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: "Login Failed Account Information")
                 }
+            } else {
+                completionHandler(success: false, accountInformation: nil, sessionInformation: nil, errorString: JSONResult as? String)
             }
         
         }
@@ -96,7 +98,7 @@ extension OTMClient {
         let userID = OTMClient.sharedInstance().userID
         
         if let userID = userID {
-            taskForUdacityGetMethod(userID, platformURL: url) {result, error in
+            taskForUdacityGetMethod(userID, platformURL: url) {success, result, error in
                 if error != nil {
                     print("OTMConvenience: Unable to get public user data due to \(error)")
                     completionHandler(success: false, errorString: "Unable to get public user data due to \(error)")
@@ -195,7 +197,7 @@ extension OTMClient {
     
     //MARK: Logout
     func logout(completionHandler: (success: Bool, errorString: String?)->Void) {
-        OTMClient.sharedInstance().taskForDeleteMethod() {result, error in
+        OTMClient.sharedInstance().taskForDeleteMethod() {sucesss, result, error in
             if error != nil {
                 completionHandler(success: false, errorString: "Unable to complete logout, \(error)")
             } else {
