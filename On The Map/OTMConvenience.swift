@@ -135,7 +135,7 @@ extension OTMClient {
             "limit":"100",
             "order":"-updatedAt"
         ]
-        taskForParseGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(JSONResult, error) in
+        taskForParseGetMethod("", platformURL: Constants.parseURL, parameters: parameters, addValueURL: AddValueNSMutableURLRequest.parseAddValueURL) {(success, JSONResult, error) in
             if let error = error {
                 completionHandler(success: false, studentArray: nil, errorString: "Get Student Locations from Parse Failed \(error)")
             } else {

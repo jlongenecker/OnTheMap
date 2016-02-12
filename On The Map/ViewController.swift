@@ -56,12 +56,14 @@ class ViewController: UIViewController {
 //        usernameAndPasswordDictionary["username"] = username
 //        usernameAndPasswordDictionary["password"] = password
         
+        loadingAlert()
+        
         OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary, viewController: self) {(success, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.resultsLabel.text = "succss"
+                    self.resultsLabel.text = "sucess"
                     self.resultsLabel.hidden = false
-
+                    self.dismissViewControllerAnimated(false, completion: nil)
                     })
             } else {
                 dispatch_async(dispatch_get_main_queue(), {
@@ -75,7 +77,20 @@ class ViewController: UIViewController {
         
     }
 
-    
+    func loadingAlert() {
+        
+        //Code from: http://stackoverflow.com/questions/27960556/loading-an-overlay-when-running-long-tasks-in-ios
+        let alert = UIAlertController(title: nil, message: "Logging in, please wait", preferredStyle: .Alert)
+        
+        alert.view.tintColor = UIColor.blackColor()
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(1, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        presentViewController(alert, animated: true, completion: nil)
+    }
  
     @IBAction func signUpForUdacityButtonPressed(sender: AnyObject) {
         OTMClient.sharedInstance().signUpForUdacity(self) {(success, errorString) in

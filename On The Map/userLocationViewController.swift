@@ -30,6 +30,10 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     var URL:String?
     
     
+    //Cases for Alert View Controller
+    let locationFromStringError = "Unable to get location from string."
+    let unableToPostStudentLocation = "Unable to post student location."
+    
     @IBOutlet weak var mapView: MKMapView!
     
     override func viewDidLoad() {
@@ -50,11 +54,14 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     }
     
     func getLocationFromString(completionHanlder: (success:Bool, errorString: String?)->Void ) {
+        loadingAlert()
         locationServices().getLocationFromString(stringLocation) { sucess, coordinatesDictionary, errorString in
             if errorString != nil {
                 print("userLocationViewController getLocationFromString errorstring \(errorString)")
-                completionHanlder(success: false, errorString: errorString)
+                //self.dismissViewControllerAnimated(false, completion: nil)
+                completionHanlder(success: false, errorString: "Unable to get location from string.")
             } else {
+                self.dismissViewControllerAnimated(false, completion: nil)
                 self.latitude = coordinatesDictionary!["latitude"]! as Float
                 self.longitude = coordinatesDictionary!["longitude"]! as Float
                 print("Latitude \(self.latitude) Longitude \(self.longitude)")
@@ -64,6 +71,8 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
             }
         }
     }
+    
+    
     
     func secondUI() {
         mapView.hidden = false
@@ -101,6 +110,10 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         stringLocation = studentLocationTextField.text!
         
         getLocationFromString() {success, errorString in
+            if success == false {
+                self.dismissViewControllerAnimated(false, completion: nil)
+                self.presentErrorAlert(errorString!)
+            }
         }
 
     }
@@ -132,13 +145,14 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         ]
         
         
-        OTMClient.sharedInstance().taskForPostParseMethod("", platformURL: OTMClient.Constants.parseURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.parseAddValueURL) {result, error in
+        OTMClient.sharedInstance().taskForPostParseMethod("", platformURL: OTMClient.Constants.parseURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.parseAddValueURL) {success, result, error in
             
             if error == nil {
                 print("Result2 \(result)")
                 self.reloadData()
+            } else if success == false {
+                self.presentErrorAlert(self.unableToPostStudentLocation)
             }
-            
         }
         
     }
@@ -162,6 +176,50 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     func dismissViewController() {
         self.navigationController?.popToRootViewControllerAnimated(true)
         
+    }
+    
+    func loadingAlert() {
+        
+        
+        //Code from: http://stackoverflow.com/questions/27960556/loading-an-overlay-when-running-long-tasks-in-ios
+        let alert = UIAlertController(title: nil, message: "Searching For Location", preferredStyle: .Alert)
+        
+        alert.view.tintColor = UIColor.blackColor()
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(1, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    //MARK: -Configure AlertViewController
+    
+    //Varibales for AlertViewController
+    var alertViewControllerTitle = ""
+    var alertViewControllerMessage = ""
+    
+    func presentErrorAlert(errorString: String) {
+        
+        switch errorString {
+        case locationFromStringError:
+            alertViewControllerTitle = "Location Error"
+            alertViewControllerMessage = "Unable to find location. Please enter a geographic location."
+        case unableToPostStudentLocation:
+            alertViewControllerTitle = "Posting Error"
+            alertViewControllerMessage = "Unable to post your location submission. Please try again later"
+        default:
+            alertViewControllerTitle = "Error"
+            alertViewControllerMessage = "An unknown error has occurred. Please try again. If the problem persists please contact support."
+        }
+        
+        let alertController = UIAlertController(title: alertViewControllerTitle, message: alertViewControllerMessage, preferredStyle: .Alert)
+        
+        let OKAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
     }
     
     //MARK: -MKMapViewDelegate

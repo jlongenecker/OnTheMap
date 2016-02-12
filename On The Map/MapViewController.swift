@@ -17,10 +17,6 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     var studentsInformation: [OTMStudent]?
     
-    override func viewDidLoad() {
-        
-        
-    }
     
     override func viewWillAppear(animated: Bool) {
         configureNavigationController()
@@ -67,13 +63,17 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     
     func reloadData() {
+        loadingAlert()
+        
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.addStudentsToMap()
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 })
             } else {
                 print("MapViewController: Unable to get students")
+                self.dismissViewControllerAnimated(false, completion: nil)
             }
         }
     }
@@ -105,6 +105,32 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
+    func loadingAlert() {
+        let alert = UIAlertController(title: nil, message: "Refreshing Data", preferredStyle: .Alert)
+        
+        alert.view.tintColor = UIColor.blackColor()
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(10, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        presentViewController(alert, animated: true, completion: nil)
+    }
+    
+    
+    func presentErrorAlert() {
+        let alertViewControllerTitle = "Invalid URL"
+        let alertViewControllerMessage = "Invalid URL. Please select another user."
+        
+        let alertController = UIAlertController(title: alertViewControllerTitle, message: alertViewControllerMessage, preferredStyle: .Alert)
+        
+        let OKAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+    
     //MARK: -MKMapViewDelegate
     
     func mapView(mapView: MKMapView, viewForAnnotation annotation: MKAnnotation) -> MKAnnotationView? {
@@ -127,15 +153,16 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     
     
     func mapView(mapView: MKMapView, annotationView view: MKAnnotationView, calloutAccessoryControlTapped control: UIControl) {
-
         if control == view.rightCalloutAccessoryView {
             let app = UIApplication.sharedApplication()
             if let toOpen = view.annotation?.subtitle! {
-                app.openURL(NSURL(string: toOpen)!)
+                if let url = NSURL(string: toOpen) {
+                    if app.openURL(url) == false {
+                        presentErrorAlert()
+                    }
+                }
             }
         }
     }
-    
-
 
 }

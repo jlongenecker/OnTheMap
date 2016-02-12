@@ -36,13 +36,16 @@ class StudentTableViewController: UITableViewController {
     }
     
     func reloadData() {
+        loadingAlert()
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
                     self.studentsInformationArray = OTMClient.sharedInstance().studentsArray
                     self.refreshTable()
+                    self.dismissViewControllerAnimated(false, completion: nil)
                 })
             } else {
+                self.dismissViewControllerAnimated(false, completion: nil)
                 print("Unable to get new data. StudentTableViewController")
             }
         }
@@ -74,6 +77,7 @@ class StudentTableViewController: UITableViewController {
     }
 
     func refreshTable() {
+
         studentsInformationArray = OTMClient.sharedInstance().studentsArray
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
@@ -104,5 +108,17 @@ class StudentTableViewController: UITableViewController {
         }
     }
 
+    func loadingAlert() {
+        let alert = UIAlertController(title: nil, message: "Refreshing Data", preferredStyle: .Alert)
+        
+        alert.view.tintColor = UIColor.blackColor()
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(10, 5, 50, 50))
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
+        loadingIndicator.startAnimating()
+        
+        alert.view.addSubview(loadingIndicator)
+        presentViewController(alert, animated: true, completion: nil)
+    }
 
 }
