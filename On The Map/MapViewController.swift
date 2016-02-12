@@ -35,9 +35,12 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     @IBAction func logoutButtonPressed(sender: AnyObject) {
+        loadingAlert("Logging Out")
+        
         OTMClient.sharedInstance().logout() { success, errorString in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
+                    self.dismissViewControllerAnimated(true, completion: nil)
                     self.dismissViewControllerAnimated(true, completion: nil)
                 })
             } else {
@@ -63,7 +66,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     
     func reloadData() {
-        loadingAlert()
+        loadingAlert("Refreshing Data")
         
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
@@ -105,8 +108,8 @@ class MapViewController: UIViewController, MKMapViewDelegate {
     }
     
     
-    func loadingAlert() {
-        let alert = UIAlertController(title: nil, message: "Refreshing Data", preferredStyle: .Alert)
+    func loadingAlert(message: String) {
+        let alert = UIAlertController(title: nil, message: message, preferredStyle: .Alert)
         
         alert.view.tintColor = UIColor.blackColor()
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(10, 5, 50, 50))
@@ -141,7 +144,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.purpleColor()
+            pinView!.pinTintColor = UIColor.orangeColor()
             pinView!.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
         } else {
             pinView!.annotation = annotation

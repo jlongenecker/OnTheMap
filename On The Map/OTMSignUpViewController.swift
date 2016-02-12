@@ -51,7 +51,7 @@ extension OTMSignUpViewController: WKNavigationDelegate {
     func webView(webView: WKWebView, didFinishNavigation navigation: WKNavigation!) {
         let currentURL = webView.URL?.absoluteString
         if let currentURL = currentURL {
-            if currentURL == "https://www.udacity.com/me#!/" {
+            if currentURL == /*"https://www.udacity.com/"*/ "https://www.udacity.com/account/auth#!/signup"{
                 completionHandler!(success: true, errorString: nil)
                 self.dismissViewControllerAnimated(true, completion: nil)
             }

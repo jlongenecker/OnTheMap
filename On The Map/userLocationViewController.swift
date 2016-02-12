@@ -35,6 +35,8 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     //Cases for Alert View Controller
     let locationFromStringError = "Unable to get location from string."
     let unableToPostStudentLocation = "Unable to post student location."
+    let blankURLField = "Blank URL Field"
+    
     
     @IBOutlet weak var mapView: MKMapView!
     
@@ -121,11 +123,17 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     
     @IBAction func submitURLButtonPressed(sender: AnyObject) {
         URL = urlTextField?.text
-        if let _ = URL {
-            postData()
+        
+        if URL == "" {
+            self.presentErrorAlert(self.blankURLField)
         } else {
-            print("Please enter in a URL")
+            if let _ = URL {
+                postData()
+            } else {
+                print("Please enter in a URL")
+            }
         }
+
         
         
     }
@@ -146,12 +154,17 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         
         
         OTMClient.sharedInstance().taskForPostParseMethod("", platformURL: OTMClient.Constants.parseURL, parameters: parameters, jsonBody: jsonBody, addValueURL: OTMClient.AddValueNSMutableURLRequest.parseAddValueURL) {success, result, error in
-            
-            if error == nil {
-                print("Result2 \(result)")
-                self.reloadData()
-            } else if success == false {
-                self.presentErrorAlert(self.unableToPostStudentLocation)
+            if success {
+
+                if error == nil {
+                    print("Result2 \(result)")
+                    self.reloadData()
+                }
+            } else {
+                print("Unable to Post Data")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.presentErrorAlert(self.unableToPostStudentLocation)
+                })
             }
         }
         
@@ -203,6 +216,9 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         case unableToPostStudentLocation:
             alertViewControllerTitle = "Posting Error"
             alertViewControllerMessage = "Unable to post your location submission. Please try again later"
+        case blankURLField:
+            alertViewControllerTitle = "Blank URL"
+            alertViewControllerMessage = "Please enter a URL before submitting your post."
         default:
             alertViewControllerTitle = "Error"
             alertViewControllerMessage = "An unknown error has occurred. Please try again. If the problem persists please contact support."
@@ -226,7 +242,7 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         if pinView == nil {
             pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseID)
             pinView!.canShowCallout = true
-            pinView!.pinTintColor = UIColor.purpleColor()
+            pinView!.pinTintColor = UIColor.orangeColor()
             pinView!.rightCalloutAccessoryView = UIButton(type: UIButtonType.DetailDisclosure)
         } else {
             pinView!.annotation = annotation
