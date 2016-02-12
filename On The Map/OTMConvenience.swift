@@ -26,7 +26,9 @@ extension OTMClient {
                             if let sessionID = sessionID {
                                 self.sessionID = sessionID
                                 completionHandler(success: true, errorString: nil)
-                                self.completeLogin(viewController)
+                                self.completeLogin(viewController) {success, errorString in
+                                    completionHandler(success: false, errorString: errorString)
+                                }
                             } else {
                                 completionHandler(success: success, errorString: errorString)
                             }
@@ -143,6 +145,8 @@ extension OTMClient {
                 if let parseArray = parseArray {
                     self.studentsArray = OTMStudent.studentsFromResults(parseArray)
                     completionHandler(success: true, studentArray: self.studentsArray, errorString: nil)
+                } else {
+                    completionHandler(success: false, studentArray: nil, errorString: "Unable to download data")
                 }
             }
             
@@ -167,7 +171,7 @@ extension OTMClient {
     
     
     //MARK: Complete Login
-    func completeLogin(viewController: ViewController) {
+    func completeLogin(viewController: ViewController, completionHandler: (success:Bool, errorString: String?)->Void) {
         getUserDatafromUdacity() {success, errorString in
             if success {
                 self.getStudentLocations() {(success, studentArray, errorString) in
@@ -175,6 +179,7 @@ extension OTMClient {
                         self.launchMapView(viewController)
                     } else {
                         print("CompleteLogin getStudentLocations \(errorString)")
+                        completionHandler(success: false, errorString: "Unable to download data")
                     }
                 }
             } else {

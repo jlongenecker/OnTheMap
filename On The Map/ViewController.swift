@@ -12,13 +12,14 @@ class ViewController: UIViewController {
 
     var session: NSURLSession!
     
-    //let usernameAndPasswordDictionary = ["username": "longenecker@me.com", "password": "iFjPqp3j4sFWw4vTZ"]
+    let usernameAndPasswordDictionary = ["username": "longenecker@me.com", "password": "iFjPqp3j4sFWw4vTZ"]
     
     let deviceOffline = "The Internet connection appears to be offline."
     var alertViewControllerTitle = ""
     var alertViewControllerMessage = ""
+    let unableToDownloadData = "Unable to download data"
     
-    var usernameAndPasswordDictionary = ["username": "", "password": ""]
+    //var usernameAndPasswordDictionary = ["username": "", "password": ""]
     @IBOutlet weak var passwordTextField: UITextField!
     @IBOutlet weak var usernameTextBox: UITextField!
     
@@ -49,11 +50,11 @@ class ViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
-//        //self.presentErrorAlert()
+
         let username = usernameTextBox.text
         let password = passwordTextField.text
-        usernameAndPasswordDictionary["username"] = username
-        usernameAndPasswordDictionary["password"] = password
+//        usernameAndPasswordDictionary["username"] = username
+//        usernameAndPasswordDictionary["password"] = password
         
         OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary, viewController: self) {(success, errorString) in
             if success {
@@ -95,6 +96,10 @@ class ViewController: UIViewController {
         case deviceOffline:
             alertViewControllerTitle = "Internet Connection"
             alertViewControllerMessage = "Your device is not connected to the Internet. Please reconnect to the Internet and try again."
+            
+        case unableToDownloadData:
+            alertViewControllerTitle = "Location Data Error"
+            alertViewControllerMessage = "We were unable to download the location data. Please contact support if error persists."
             
         default :
             alertViewControllerTitle = "Login Error"
