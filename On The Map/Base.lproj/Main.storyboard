@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E33e" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15E39d" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="BYZ-38-t0r">
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
@@ -227,18 +227,18 @@
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hn8-Wa-Wvf" id="H2J-iE-XTe">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43.5"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Title" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="XEb-Jk-p15">
-                                            <rect key="frame" x="62" y="6" width="31.5" height="19.5"/>
+                                            <rect key="frame" x="62" y="5" width="32" height="20"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" text="Subtitle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="ERS-l7-ohF">
-                                            <rect key="frame" x="62" y="25.5" width="40.5" height="13.5"/>
+                                            <rect key="frame" x="62" y="25" width="41" height="14"/>
                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
@@ -327,15 +327,33 @@
                                     <action selector="submitURLButtonPressed:" destination="pLc-CH-Llm" eventType="touchUpInside" id="dQS-Ri-UsE"/>
                                 </connections>
                             </button>
+                            <view alpha="0.55000000000000004" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="r4D-jo-xep">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wA8-dm-KZX">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wA8-dm-KZX" secondAttribute="bottom" id="FBb-M5-Kuh"/>
+                                    <constraint firstAttribute="trailing" secondItem="wA8-dm-KZX" secondAttribute="trailing" id="M1P-Zv-aRo"/>
+                                    <constraint firstItem="wA8-dm-KZX" firstAttribute="top" secondItem="r4D-jo-xep" secondAttribute="top" id="nPw-7w-vCy"/>
+                                    <constraint firstItem="wA8-dm-KZX" firstAttribute="leading" secondItem="r4D-jo-xep" secondAttribute="leading" id="p5r-CQ-BrN"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="r4D-jo-xep" firstAttribute="leading" secondItem="OIy-IJ-rKx" secondAttribute="leadingMargin" constant="-20" id="2e5-bm-shv"/>
+                            <constraint firstItem="r4D-jo-xep" firstAttribute="top" secondItem="OIy-IJ-rKx" secondAttribute="topMargin" id="3B4-bG-Qyg"/>
                             <constraint firstItem="SgK-gN-Eh2" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="52" id="AeY-Ff-juu"/>
                             <constraint firstAttribute="leadingMargin" secondItem="Ese-bG-sGV" secondAttribute="leading" id="Fb4-W0-nDb"/>
                             <constraint firstItem="nEz-lZ-Y17" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="155" id="Mwy-je-fQZ"/>
                             <constraint firstItem="1NH-KV-XXQ" firstAttribute="top" secondItem="Ese-bG-sGV" secondAttribute="bottom" constant="20" id="Ohw-Td-VkR"/>
                             <constraint firstItem="XRx-be-eF9" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="P8v-mL-VmF"/>
                             <constraint firstItem="SgK-gN-Eh2" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="PkM-CO-gih"/>
+                            <constraint firstItem="1NH-KV-XXQ" firstAttribute="top" secondItem="r4D-jo-xep" secondAttribute="bottom" id="R99-n0-sDg"/>
                             <constraint firstItem="PZf-WQ-p2t" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="bu0-Ga-oRn"/>
                             <constraint firstItem="uQL-ng-Yw2" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="8" id="c5m-YX-nQn"/>
                             <constraint firstAttribute="trailingMargin" secondItem="Ese-bG-sGV" secondAttribute="trailing" id="cwA-zE-I9b"/>
@@ -344,6 +362,7 @@
                             <constraint firstItem="XRx-be-eF9" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="52" id="jzE-zS-OZ5"/>
                             <constraint firstItem="d45-Mq-hmE" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="155" id="kDR-bA-tAc"/>
                             <constraint firstItem="nEz-lZ-Y17" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="nCt-Pa-82a"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="r4D-jo-xep" secondAttribute="trailing" constant="-20" id="nyR-1Y-Vha"/>
                             <constraint firstItem="PZf-WQ-p2t" firstAttribute="top" secondItem="Ih9-aJ-lCm" secondAttribute="bottom" constant="8" id="omc-9l-R6y"/>
                             <constraint firstItem="d45-Mq-hmE" firstAttribute="centerX" secondItem="OIy-IJ-rKx" secondAttribute="centerX" id="z0v-6q-oKM"/>
                         </constraints>
@@ -351,6 +370,8 @@
                     <connections>
                         <outlet property="enterAURLToShare" destination="uQL-ng-Yw2" id="WK4-sy-2LJ"/>
                         <outlet property="enterLocationLabel" destination="PZf-WQ-p2t" id="YSZ-c6-SaD"/>
+                        <outlet property="loadingSymbolView" destination="wA8-dm-KZX" id="dFi-Sh-3Ws"/>
+                        <outlet property="loadingView" destination="r4D-jo-xep" id="fVU-5N-YEf"/>
                         <outlet property="mapView" destination="Ese-bG-sGV" id="hMI-OU-Iwb"/>
                         <outlet property="studentLocationTextField" destination="SgK-gN-Eh2" id="Nim-gP-6Q7"/>
                         <outlet property="submitButtonOutlet" destination="nEz-lZ-Y17" id="LNL-nc-buS"/>

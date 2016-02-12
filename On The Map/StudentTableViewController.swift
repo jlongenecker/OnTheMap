@@ -23,7 +23,6 @@ class StudentTableViewController: UITableViewController {
         return studentsInformationArray.count
     }
     
-    
     func configureNavigationController() {
         var navigationButtons = [UIBarButtonItem]()
         let refreshButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Refresh, target: self, action: Selector("reloadData"))
@@ -77,7 +76,6 @@ class StudentTableViewController: UITableViewController {
     }
 
     func refreshTable() {
-
         studentsInformationArray = OTMClient.sharedInstance().studentsArray
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
@@ -96,15 +94,14 @@ class StudentTableViewController: UITableViewController {
     }
 
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
-        //Sends the user to the information provided by the student in the JSON results.
-        //Need to add an alert if URL provided does not work. 
-        
+
         let student = studentsInformationArray[indexPath.row]
-        
         let studentURL = NSURL(string: student.mediaURL)
         if let studentURL = studentURL {
-                    UIApplication.sharedApplication().openURL(studentURL)
+            let result = UIApplication.sharedApplication().openURL(studentURL)
+            if result == false {
+                presentErrorAlert()
+            }
         }
     }
 
@@ -120,5 +117,18 @@ class StudentTableViewController: UITableViewController {
         alert.view.addSubview(loadingIndicator)
         presentViewController(alert, animated: true, completion: nil)
     }
+    
+    func presentErrorAlert() {
+        let alertViewControllerTitle = "Invalid URL"
+        let alertViewControllerMessage = "Invalid URL. Please select another user."
+        
+        let alertController = UIAlertController(title: alertViewControllerTitle, message: alertViewControllerMessage, preferredStyle: .Alert)
+        
+        let OKAction = UIAlertAction(title: "Ok", style: .Default, handler: nil)
+        
+        alertController.addAction(OKAction)
+        self.presentViewController(alertController, animated: true, completion: nil)
+    }
+
 
 }
