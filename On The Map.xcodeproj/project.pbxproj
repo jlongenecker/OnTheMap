@@ -23,6 +23,7 @@
 		53BBB80B1C5A5C6200674C2D /* On_The_MapUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BBB80A1C5A5C6200674C2D /* On_The_MapUITests.swift */; };
 		53BBB8191C5BF64F00674C2D /* OTMClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BBB8181C5BF64F00674C2D /* OTMClient.swift */; };
 		53BBB81B1C5BFA2D00674C2D /* OTMConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53BBB81A1C5BFA2D00674C2D /* OTMConstants.swift */; };
+		D52A37451C6E6BD800BC586E /* map-pin-746123_960_720.png in Resources */ = {isa = PBXBuildFile; fileRef = D52A37441C6E6BD800BC586E /* map-pin-746123_960_720.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,6 +66,7 @@
 		53BBB80C1C5A5C6200674C2D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		53BBB8181C5BF64F00674C2D /* OTMClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMClient.swift; sourceTree = "<group>"; };
 		53BBB81A1C5BFA2D00674C2D /* OTMConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OTMConstants.swift; sourceTree = "<group>"; };
+		D52A37441C6E6BD800BC586E /* map-pin-746123_960_720.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "map-pin-746123_960_720.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +146,7 @@
 				53BBB7EA1C5A5C6200674C2D /* AppDelegate.swift */,
 				53BBB7EE1C5A5C6200674C2D /* Main.storyboard */,
 				53BBB7F11C5A5C6200674C2D /* Assets.xcassets */,
+				D52A37441C6E6BD800BC586E /* map-pin-746123_960_720.png */,
 				53BBB7F31C5A5C6200674C2D /* LaunchScreen.storyboard */,
 				53BBB7F61C5A5C6200674C2D /* Info.plist */,
 			);
@@ -273,6 +276,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				53BBB7F51C5A5C6200674C2D /* LaunchScreen.storyboard in Resources */,
+				D52A37451C6E6BD800BC586E /* map-pin-746123_960_720.png in Resources */,
 				53BBB7F21C5A5C6200674C2D /* Assets.xcassets in Resources */,
 				53BBB7F01C5A5C6200674C2D /* Main.storyboard in Resources */,
 			);

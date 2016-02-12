@@ -48,6 +48,8 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         let cancelButton = UIBarButtonItem(title: "Cancel", style: UIBarButtonItemStyle.Plain, target: self, action: "dismissViewController")
         navigationItem.leftBarButtonItem = cancelButton
         self.tabBarController?.tabBar.hidden = true
+        let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
     }
 
     func setupView() {
@@ -80,6 +82,9 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
         }
     }
     
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
     
     
     func secondUI() {
@@ -109,7 +114,7 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
 
     
     @IBAction func submitButtonPressed(sender: AnyObject) {
-        
+        dismissKeyboard()
         stringLocation = studentLocationTextField.text!
         
         getLocationFromString() {success, errorString in
@@ -122,6 +127,7 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     
     
     @IBAction func submitURLButtonPressed(sender: AnyObject) {
+        dismissKeyboard()
         URL = urlTextField?.text
         
         if URL == "" {

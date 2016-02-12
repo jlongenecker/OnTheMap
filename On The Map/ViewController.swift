@@ -31,11 +31,12 @@ class ViewController: UIViewController {
     
     @IBOutlet weak var udacitySignUpCompleteLabel: UILabel!
     override func viewDidLoad() {
-        
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib
         hideLabels()
         udacitySignUpCompleteLabel.hidden = true
+        let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        view.addGestureRecognizer(tap)
         
     }
     
@@ -57,7 +58,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var loginButton: UIButton!
     
     @IBAction func loginButtonPressed(sender: AnyObject) {
-
+        dismissKeyboard()
         let username = usernameTextBox.text
         let password = passwordTextField.text
         if password == "" || username == "" {
@@ -86,23 +87,6 @@ class ViewController: UIViewController {
         }
     }
 
-    func loadingAlert() {
-        
-        //Code from: http://stackoverflow.com/questions/27960556/loading-an-overlay-when-running-long-tasks-in-ios
-        let alert = UIAlertController(title: nil, message: "Logging in, please wait", preferredStyle: .Alert)
-        
-        alert.view.tintColor = UIColor.blackColor()
-        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: CGRectMake(1, 5, 50, 50))
-        loadingIndicator.hidesWhenStopped = true
-        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.Gray
-        loadingIndicator.startAnimating()
-        
-        alert.view.addSubview(loadingIndicator)
-        presentViewController(alert, animated: true, completion: nil)
-        
-        
-    }
-    
     func loadingAlertTwo() {
         let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: alertMessageView.frame)
         loadingIndicator.hidesWhenStopped = true
@@ -157,5 +141,8 @@ class ViewController: UIViewController {
         self.presentViewController(alertController, animated: true, completion: nil)
     }
     
+    func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }
 
