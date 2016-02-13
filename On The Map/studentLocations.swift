@@ -22,6 +22,8 @@ struct OTMStudent {
     var uniqueKey = ""
     var updatedAt = ""
     
+    static var studentsArray = [OTMStudent]()
+    
     //MARK: Initializers
     init(dictionary: [String:AnyObject]) {
         createdAt = dictionary[OTMClient.JSONResponseKeys.createdAt] as! String
@@ -38,15 +40,15 @@ struct OTMStudent {
     }
     
     static func studentsFromResults(results: [[String: AnyObject]]) -> [OTMStudent] {
-        var studentsArray = [OTMStudent]()
         
+        studentsArray.removeAll()
         for student in results {
             studentsArray.append(OTMStudent(dictionary: student))
         }
         
-        
         return studentsArray
         
     }
+    
     
 }

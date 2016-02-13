@@ -10,13 +10,18 @@ import UIKit
 
 class StudentTableViewController: UITableViewController {
     
-    var studentsInformationArray = OTMClient.sharedInstance().studentsArray
     
+    var studentsInformationArray = OTMStudent.studentsArray
     let reuseIdentifier = "studentInformationCell"
+    
+    //Returnable Errors
+    let unableToGetStudents = "Unable to get students"
+    let invalidURL = "Invalid URL"
     
     override func viewWillAppear(animated: Bool) {
         configureNavigationController()
         refreshTable()
+
     }
     
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -39,13 +44,17 @@ class StudentTableViewController: UITableViewController {
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
                 dispatch_async(dispatch_get_main_queue(), {
-                    self.studentsInformationArray = OTMClient.sharedInstance().studentsArray
+                    self.studentsInformationArray = OTMStudent.studentsArray
                     self.refreshTable()
                     self.dismissViewControllerAnimated(false, completion: nil)
                 })
             } else {
-                self.dismissViewControllerAnimated(false, completion: nil)
-                print("Unable to get new data. StudentTableViewController")
+                dispatch_async(dispatch_get_main_queue(),{
+                    self.dismissViewControllerAnimated(false, completion: nil)
+                    self.presentErrorAlert(self.unableToGetStudents)
+                    print("Unable to get new data. StudentTableViewController")
+                })
+
             }
         }
     }
@@ -78,7 +87,7 @@ class StudentTableViewController: UITableViewController {
     }
 
     func refreshTable() {
-        studentsInformationArray = OTMClient.sharedInstance().studentsArray
+        studentsInformationArray = OTMStudent.studentsArray
         dispatch_async(dispatch_get_main_queue(), {
             self.tableView.reloadData()
         })
@@ -102,7 +111,7 @@ class StudentTableViewController: UITableViewController {
         if let studentURL = studentURL {
             let result = UIApplication.sharedApplication().openURL(studentURL)
             if result == false {
-                presentErrorAlert()
+                presentErrorAlert(invalidURL)
             }
         }
     }
@@ -120,9 +129,24 @@ class StudentTableViewController: UITableViewController {
         presentViewController(alert, animated: true, completion: nil)
     }
     
-    func presentErrorAlert() {
-        let alertViewControllerTitle = "Invalid URL"
-        let alertViewControllerMessage = "Invalid URL. Please select another user."
+
+    func presentErrorAlert(errorString: String) {
+        var alertViewControllerTitle = ""
+        var alertViewControllerMessage = ""
+        
+        switch errorString {
+        case unableToGetStudents:
+            alertViewControllerTitle = "Error"
+            alertViewControllerMessage = "Unable to get student locations, please check your internet connection and try again."
+        case invalidURL:
+            alertViewControllerTitle = "Invalid URL"
+            alertViewControllerMessage = "Invalid URL. Please select another user."
+        default:
+            alertViewControllerTitle = "Unknown Error"
+            alertViewControllerMessage = "An unknown error has occurred. Please contact support if the error persists."
+        }
+        
+        
         
         let alertController = UIAlertController(title: alertViewControllerTitle, message: alertViewControllerMessage, preferredStyle: .Alert)
         
@@ -131,6 +155,6 @@ class StudentTableViewController: UITableViewController {
         alertController.addAction(OKAction)
         self.presentViewController(alertController, animated: true, completion: nil)
     }
-
+    
 
 }

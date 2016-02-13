@@ -12,7 +12,6 @@ import Foundation
 
 class OTMClient: NSObject {
     //MARK: Properties
-    var studentsArray = [OTMStudent]()
     
     /* Shared Session */
     var session: NSURLSession

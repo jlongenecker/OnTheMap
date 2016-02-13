@@ -12,15 +12,25 @@ import MapKit
 
 class MapViewController: UIViewController, MKMapViewDelegate {
 
-
+    @IBOutlet weak var transparencyLoadingView: UIView!
+    @IBOutlet weak var alertMessageView: UIView!
+    @IBOutlet weak var alertLabel: UILabel!
+    
     @IBOutlet weak var mapView: MKMapView!
     
     var studentsInformation: [OTMStudent]?
+    
+    //Returnable Errors
+    let unableToGetStudents = "Unable to get students"
+    let invalidURL = "Invalid URL"
     
     
     override func viewWillAppear(animated: Bool) {
         configureNavigationController()
         addStudentsToMap()
+        transparencyLoadingView.hidden = true
+        alertMessageView.hidden = true
+  
     }
     
     func configureNavigationController() {
@@ -33,6 +43,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         self.navigationItem.rightBarButtonItems = navigationButtons
         self.tabBarController?.tabBar.hidden = false
     }
+    
     
     @IBAction func logoutButtonPressed(sender: AnyObject) {
         loadingAlert("Logging Out")
@@ -66,23 +77,30 @@ class MapViewController: UIViewController, MKMapViewDelegate {
 
     
     func reloadData() {
-        loadingAlert("Refreshing Data")
+        loadingAlertTwo()
         
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
+                self.studentsInformation = OTMStudent.studentsArray
                 dispatch_async(dispatch_get_main_queue(), {
                     self.addStudentsToMap()
-                    self.dismissViewControllerAnimated(false, completion: nil)
+                    self.transparencyLoadingView.hidden = true
+                    self.alertMessageView.hidden = true
                 })
             } else {
                 print("MapViewController: Unable to get students")
-                self.dismissViewControllerAnimated(false, completion: nil)
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.presentErrorAlert(self.unableToGetStudents)
+                    self.transparencyLoadingView.hidden = true
+                    self.alertMessageView.hidden = true
+                })
             }
         }
     }
     
     func addStudentsToMap() {
-        studentsInformation = OTMClient.sharedInstance().studentsArray
+
+        studentsInformation = OTMStudent.studentsArray
         
         var annotations = [MKPointAnnotation]()
         
@@ -104,7 +122,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             annotations.append(annotation)
         }
         
-        self.mapView.addAnnotations(annotations)
+        mapView.addAnnotations(annotations)
     }
     
     
@@ -121,10 +139,33 @@ class MapViewController: UIViewController, MKMapViewDelegate {
         presentViewController(alert, animated: true, completion: nil)
     }
     
+    func loadingAlertTwo() {
+        let loadingIndicator: UIActivityIndicatorView = UIActivityIndicatorView(frame: alertMessageView.frame)
+        loadingIndicator.hidesWhenStopped = true
+        loadingIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
+        loadingIndicator.startAnimating()
+        alertMessageView.addSubview(loadingIndicator)
+        alertMessageView.hidden = false
+        transparencyLoadingView.hidden = false
+    }
     
-    func presentErrorAlert() {
-        let alertViewControllerTitle = "Invalid URL"
-        let alertViewControllerMessage = "Invalid URL. Please select another user."
+    func presentErrorAlert(errorString: String) {
+        var alertViewControllerTitle = ""
+        var alertViewControllerMessage = ""
+        
+        switch errorString {
+        case unableToGetStudents:
+             alertViewControllerTitle = "Error"
+             alertViewControllerMessage = "Unable to get student locations, please check your internet connection and try again."
+        case invalidURL:
+             alertViewControllerTitle = "Invalid URL"
+             alertViewControllerMessage = "Invalid URL. Please select another user."
+        default:
+            alertViewControllerTitle = "Unknown Error"
+            alertViewControllerMessage = "An unknown error has occurred. Please contact support if the error persists."
+        }
+        
+        
         
         let alertController = UIAlertController(title: alertViewControllerTitle, message: alertViewControllerMessage, preferredStyle: .Alert)
         
@@ -161,7 +202,7 @@ class MapViewController: UIViewController, MKMapViewDelegate {
             if let toOpen = view.annotation?.subtitle! {
                 if let url = NSURL(string: toOpen) {
                     if app.openURL(url) == false {
-                        presentErrorAlert()
+                        presentErrorAlert(invalidURL)
                     }
                 }
             }

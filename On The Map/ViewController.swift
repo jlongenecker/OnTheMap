@@ -47,6 +47,8 @@ class ViewController: UIViewController {
     override func viewDidDisappear(animated: Bool) {
         hideLabels()
         signUpForUdacityOutlet.hidden = false
+        passwordTextField.text = ""
+        usernameTextBox.text = ""
     }
 
     func hideLabels() {

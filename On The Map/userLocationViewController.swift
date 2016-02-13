@@ -36,6 +36,7 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     let locationFromStringError = "Unable to get location from string."
     let unableToPostStudentLocation = "Unable to post student location."
     let blankURLField = "Blank URL Field"
+    let unableToRefreshData = "Unable to refresh data."
     
     
     @IBOutlet weak var mapView: MKMapView!
@@ -180,12 +181,15 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
     func reloadData() {
         OTMClient.sharedInstance().getStudentLocations() {(success, studentArray, errorString) in
             if success {
-                OTMClient.sharedInstance().studentsArray = studentArray!
+                //OTMClient.sharedInstance().studentsArray = studentArray!
                 dispatch_async(dispatch_get_main_queue(), {
                     self.navigationController?.popToRootViewControllerAnimated(true)
                 })
             } else {
                 print("userLocationViewController: Unable to update students")
+                dispatch_async(dispatch_get_main_queue(), {
+                    self.presentErrorAlert(self.unableToRefreshData)
+                })
             }
         }
     }
@@ -223,6 +227,9 @@ class userLocationViewController: UIViewController, MKMapViewDelegate {
             alertViewControllerTitle = "Posting Error"
             alertViewControllerMessage = "Unable to post your location submission. Please try again later"
         case blankURLField:
+            alertViewControllerTitle = "Blank URL"
+            alertViewControllerMessage = "Please enter a URL before submitting your post."
+        case unableToRefreshData:
             alertViewControllerTitle = "Blank URL"
             alertViewControllerMessage = "Please enter a URL before submitting your post."
         default:

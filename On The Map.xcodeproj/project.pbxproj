@@ -100,7 +100,6 @@
 				53BBB8181C5BF64F00674C2D /* OTMClient.swift */,
 				53BBB81A1C5BFA2D00674C2D /* OTMConstants.swift */,
 				538CB5EA1C5FF21B00FEEC20 /* OTMConvenience.swift */,
-				538CB5F21C62810000FEEC20 /* studentLocations.swift */,
 				5370B7701C6910D500778F32 /* locationServices.swift */,
 			);
 			name = Model;
@@ -141,6 +140,7 @@
 		53BBB7E91C5A5C6200674C2D /* On The Map */ = {
 			isa = PBXGroup;
 			children = (
+				D5B9EDAB1C6F8A06005388D1 /* StudentLocations */,
 				538CB5EF1C61403B00FEEC20 /* View Controller */,
 				538CB5EE1C61402E00FEEC20 /* Model */,
 				53BBB7EA1C5A5C6200674C2D /* AppDelegate.swift */,
@@ -169,6 +169,14 @@
 				53BBB80C1C5A5C6200674C2D /* Info.plist */,
 			);
 			path = "On The MapUITests";
+			sourceTree = "<group>";
+		};
+		D5B9EDAB1C6F8A06005388D1 /* StudentLocations */ = {
+			isa = PBXGroup;
+			children = (
+				538CB5F21C62810000FEEC20 /* studentLocations.swift */,
+			);
+			name = StudentLocations;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

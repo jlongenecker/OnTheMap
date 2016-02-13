@@ -241,13 +241,45 @@
                                     <outlet property="delegate" destination="aNP-fK-R0G" id="qDE-h3-UNp"/>
                                 </connections>
                             </mapView>
+                            <view alpha="0.84999999999999998" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dzW-le-uxM">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                <subviews>
+                                    <view alpha="0.85000002384185791" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wq6-rA-3Ny">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                                        <subviews>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Loading, Please Wait" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gDu-EA-FWf">
+                                                <rect key="frame" x="172" y="251" width="256" height="30"/>
+                                                <fontDescription key="fontDescription" type="system" weight="heavy" pointSize="25"/>
+                                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                        </subviews>
+                                        <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstItem="gDu-EA-FWf" firstAttribute="centerY" secondItem="wq6-rA-3Ny" secondAttribute="centerY" constant="-34" id="Wat-wJ-MnW"/>
+                                            <constraint firstItem="gDu-EA-FWf" firstAttribute="centerX" secondItem="wq6-rA-3Ny" secondAttribute="centerX" id="yDl-NW-htP"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="wq6-rA-3Ny" secondAttribute="bottom" id="Lxr-Gi-SWE"/>
+                                    <constraint firstAttribute="trailing" secondItem="wq6-rA-3Ny" secondAttribute="trailing" id="ljd-vV-08M"/>
+                                    <constraint firstItem="wq6-rA-3Ny" firstAttribute="top" secondItem="dzW-le-uxM" secondAttribute="top" id="sje-rE-7xr"/>
+                                    <constraint firstItem="wq6-rA-3Ny" firstAttribute="leading" secondItem="dzW-le-uxM" secondAttribute="leading" id="zTb-2k-DYx"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
                             <constraint firstItem="WLH-xI-9Cy" firstAttribute="top" secondItem="kSo-zD-796" secondAttribute="bottom" id="57p-yc-hxj"/>
+                            <constraint firstItem="dzW-le-uxM" firstAttribute="top" secondItem="fiJ-A9-otR" secondAttribute="topMargin" id="JA5-4Q-une"/>
                             <constraint firstItem="kSo-zD-796" firstAttribute="top" secondItem="pdb-Gl-L8s" secondAttribute="bottom" id="YxZ-3E-prf"/>
+                            <constraint firstItem="dzW-le-uxM" firstAttribute="bottom" secondItem="fiJ-A9-otR" secondAttribute="bottomMargin" id="buI-Fc-7VG"/>
                             <constraint firstItem="kSo-zD-796" firstAttribute="leading" secondItem="fiJ-A9-otR" secondAttribute="leadingMargin" constant="-20" id="i9o-s5-xJv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="dzW-le-uxM" secondAttribute="trailing" constant="-20" id="nTB-zZ-bIi"/>
                             <constraint firstAttribute="trailingMargin" secondItem="kSo-zD-796" secondAttribute="trailing" constant="-20" id="wX7-Ef-VK3"/>
+                            <constraint firstItem="dzW-le-uxM" firstAttribute="leading" secondItem="fiJ-A9-otR" secondAttribute="leadingMargin" constant="-20" id="y7m-sp-bnn"/>
                         </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Map" image="List" id="TzC-jA-2so"/>
@@ -259,7 +291,10 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="alertLabel" destination="gDu-EA-FWf" id="FAG-rT-5qr"/>
+                        <outlet property="alertMessageView" destination="wq6-rA-3Ny" id="afJ-ei-hQy"/>
                         <outlet property="mapView" destination="kSo-zD-796" id="GeK-cu-lSh"/>
+                        <outlet property="transparencyLoadingView" destination="dzW-le-uxM" id="TAv-hb-SOc"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="neG-5v-eGS" userLabel="First Responder" sceneMemberID="firstResponder"/>

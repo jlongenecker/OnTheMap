@@ -142,9 +142,10 @@ extension OTMClient {
                 //print("JSONResult \(JSONResult)")
                 let parseArray = JSONResult["results"] as? [[String:AnyObject]]
                 
+                //print("ParseArray \(parseArray)")
                 if let parseArray = parseArray {
-                    self.studentsArray = OTMStudent.studentsFromResults(parseArray)
-                    completionHandler(success: true, studentArray: self.studentsArray, errorString: nil)
+                    OTMStudent.studentsFromResults(parseArray)
+                    completionHandler(success: true, studentArray: OTMStudent.studentsArray, errorString: nil)
                 } else {
                     completionHandler(success: false, studentArray: nil, errorString: "Unable to download data")
                 }
