@@ -16,7 +16,6 @@ class ViewController: UIViewController {
     @IBOutlet weak var alertLabel: UILabel!
     
     
-    
     let deviceOffline = "The Internet connection appears to be offline."
     var alertViewControllerTitle = ""
     var alertViewControllerMessage = ""
@@ -35,7 +34,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view, typically from a nib
         hideLabels()
         udacitySignUpCompleteLabel.hidden = true
-        let tap = UITapGestureRecognizer(target: self, action: "dismissKeyboard")
+        let tap = UITapGestureRecognizer(target: self, action: #selector(ViewController.dismissKeyboard))
         view.addGestureRecognizer(tap)
         
     }
@@ -66,8 +65,8 @@ class ViewController: UIViewController {
         if password == "" || username == "" {
             presentErrorAlert(blankUsernameOrPassword)
         } else {
-            usernameAndPasswordDictionary["username"] = username
-            usernameAndPasswordDictionary["password"] = password
+//            usernameAndPasswordDictionary["username"] = username
+//            usernameAndPasswordDictionary["password"] = password
             loadingAlertTwo()
             
             OTMClient.sharedInstance().authenticateWithViewController(usernameAndPasswordDictionary, viewController: self) {(success, errorString) in
