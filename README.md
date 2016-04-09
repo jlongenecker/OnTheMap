@@ -1,7 +1,7 @@
 # OnTheMap
 
 On the Map is a project built to satisfy Udacity's iOS Nanodegree Lesson 3 [project](https://www.udacity.com/course/ios-networking-with-swift--ud421).
-The app allows a user download other user locations, and upload a location of their choice. 
+The app allows a user to download other user locations, and upload a location of their choice. 
 
 ##Installation
 
